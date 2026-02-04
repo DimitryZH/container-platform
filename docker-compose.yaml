@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./services/frontend
+    image: docker.io/<username>/online-shop-frontend:dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - cart-service
+      - product-catalog-service
+
+  cart-service:
+    build: ./services/cart-service
+    image: docker.io/<username>/online-shop-cart:dev
+
+  checkout-service:
+    build: ./services/checkout-service
+    image: docker.io/<username>/online-shop-checkout:dev
+
+  payment-service:
+    build: ./services/payment-service
+    image: docker.io/<username>/online-shop-payment:dev
+
+  product-catalog-service:
+    build: ./services/product-catalog-service
+    image: docker.io/<username>/online-shop-product:dev
