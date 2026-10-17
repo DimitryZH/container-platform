@@ -1,0 +1,396 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "purpose": {
+      "enum": [
+        "candidate",
+        "example"
+      ]
+    },
+    "notice": {
+      "type": "string",
+      "minLength": 1
+    },
+    "releaseId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*(?![\\s\\S])"
+    },
+    "application": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "const": "online-shop"
+        },
+        "upstreamVersion": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "upstreamVersion"
+      ]
+    },
+    "inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "revision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}(?![\\s\\S])"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^(?:[a-zA-Z0-9_-]+/)*[a-zA-Z0-9_-]+\\.json(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "revision",
+        "path"
+      ]
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?![\\s\\S])"
+          },
+          "class": {
+            "enum": [
+              "first-party",
+              "third-party"
+            ]
+          },
+          "image": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "repository": {
+                "type": "string",
+                "pattern": "^docker\\.io/[a-z0-9]+(?:[._-][a-z0-9]+)*/[a-z0-9]+(?:[._-][a-z0-9]+)*(?![\\s\\S])"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+              },
+              "kind": {
+                "enum": [
+                  "index",
+                  "manifest"
+                ]
+              },
+              "platforms": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9]+/[a-z0-9]+(?:/[a-z0-9]+)?(?![\\s\\S])"
+                }
+              }
+            },
+            "required": [
+              "repository",
+              "digest",
+              "kind",
+              "platforms"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "manifest"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "platforms": {
+                      "maxItems": 1
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "traceability": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "enum": [
+                  "recorded",
+                  "upstream",
+                  "legacy"
+                ]
+              },
+              "source": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "repository": {
+                        "type": "string",
+                        "pattern": "^https://[^\\s]+(?![\\s\\S])"
+                      },
+                      "commit": {
+                        "type": "string",
+                        "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "repository",
+                      "commit"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "build": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "pattern": "^https://[^\\s]+(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "url"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "upstream": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^https://[^\\s]+(?![\\s\\S])"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "reason": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "status",
+              "source",
+              "build",
+              "upstream",
+              "reason"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "class",
+          "image",
+          "traceability"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "traceability": {
+                  "properties": {
+                    "status": {
+                      "const": "legacy"
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "traceability": {
+                  "properties": {
+                    "reason": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "traceability": {
+                  "properties": {
+                    "reason": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "class": {
+                  "const": "first-party"
+                },
+                "traceability": {
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "recorded",
+                        "upstream"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "traceability": {
+                  "properties": {
+                    "status": {
+                      "const": "recorded"
+                    },
+                    "source": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "repository": {
+                          "type": "string",
+                          "pattern": "^https://[^\\s]+(?![\\s\\S])"
+                        },
+                        "commit": {
+                          "type": "string",
+                          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})(?![\\s\\S])"
+                        }
+                      },
+                      "required": [
+                        "repository",
+                        "commit"
+                      ]
+                    },
+                    "build": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "url": {
+                          "type": "string",
+                          "pattern": "^https://[^\\s]+(?![\\s\\S])"
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "class": {
+                  "const": "third-party"
+                },
+                "traceability": {
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "recorded",
+                        "upstream"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "traceability": {
+                  "properties": {
+                    "status": {
+                      "const": "upstream"
+                    },
+                    "upstream": {
+                      "type": "string",
+                      "pattern": "^https://[^\\s]+(?![\\s\\S])"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "purpose",
+    "notice",
+    "releaseId",
+    "application",
+    "inventory",
+    "components"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/DimitryZH/container-platform/raw/main/schemas/release-v1.schema.json",
+  "title": "Container Platform release contract v1",
+  "description": "Structural validation only; examples are never deployable and approval requires external evidence.",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "purpose": {
+            "const": "example"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "notice": {
+            "const": "NON-DEPLOYABLE SYNTHETIC EXAMPLE"
+          }
+        }
+      }
+    }
+  ]
+}

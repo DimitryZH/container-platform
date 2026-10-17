@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "purpose": "example",
+  "notice": "NON-DEPLOYABLE SYNTHETIC EXAMPLE",
+  "releaseId": "example-bundle-001",
+  "application": {
+    "name": "online-shop",
+    "upstreamVersion": null
+  },
+  "inventory": {
+    "revision": "0000000000000000000000000000000000000000",
+    "path": "examples/nonexistent-inventory.json"
+  },
+  "components": [
+    {
+      "id": "example-frontend",
+      "class": "first-party",
+      "image": {
+        "repository": "docker.io/example/online-shop-frontend",
+        "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "kind": "index",
+        "platforms": [
+          "linux/amd64"
+        ]
+      },
+      "traceability": {
+        "status": "recorded",
+        "source": {
+          "repository": "https://example.invalid/source",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "build": {
+          "url": "https://example.invalid/build/1"
+        },
+        "upstream": null,
+        "reason": null
+      }
+    },
+    {
+      "id": "example-cache",
+      "class": "third-party",
+      "image": {
+        "repository": "docker.io/example/cache",
+        "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "kind": "manifest",
+        "platforms": [
+          "linux/amd64"
+        ]
+      },
+      "traceability": {
+        "status": "upstream",
+        "source": null,
+        "build": null,
+        "upstream": "https://example.invalid/releases/1",
+        "reason": null
+      }
+    },
+    {
+      "id": "example-legacy",
+      "class": "first-party",
+      "image": {
+        "repository": "docker.io/example/online-shop-legacy",
+        "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "kind": "manifest",
+        "platforms": [
+          "linux/amd64"
+        ]
+      },
+      "traceability": {
+        "status": "legacy",
+        "source": null,
+        "build": null,
+        "upstream": null,
+        "reason": "Original source and build records are unavailable; synthetic legacy illustration."
+      }
+    }
+  ]
+}
