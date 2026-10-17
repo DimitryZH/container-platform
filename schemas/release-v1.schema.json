@@ -17,7 +17,7 @@
     },
     "releaseId": {
       "type": "string",
-      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+      "pattern": "^[a-z0-9][a-z0-9._-]*(?![\\s\\S])"
     },
     "application": {
       "type": "object",
@@ -49,11 +49,11 @@
       "properties": {
         "revision": {
           "type": "string",
-          "pattern": "^[0-9a-f]{40}$"
+          "pattern": "^[0-9a-f]{40}(?![\\s\\S])"
         },
         "path": {
           "type": "string",
-          "pattern": "^(?:[a-zA-Z0-9_-]+/)*[a-zA-Z0-9_-]+\\.json$"
+          "pattern": "^(?:[a-zA-Z0-9_-]+/)*[a-zA-Z0-9_-]+\\.json(?![\\s\\S])"
         }
       },
       "required": [
@@ -71,7 +71,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?![\\s\\S])"
           },
           "class": {
             "enum": [
@@ -85,11 +85,11 @@
             "properties": {
               "repository": {
                 "type": "string",
-                "pattern": "^docker\\.io/[a-z0-9]+(?:[._-][a-z0-9]+)*/[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+                "pattern": "^docker\\.io/[a-z0-9]+(?:[._-][a-z0-9]+)*/[a-z0-9]+(?:[._-][a-z0-9]+)*(?![\\s\\S])"
               },
               "digest": {
                 "type": "string",
-                "pattern": "^sha256:[0-9a-f]{64}$"
+                "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
               },
               "kind": {
                 "enum": [
@@ -103,7 +103,7 @@
                 "uniqueItems": true,
                 "items": {
                   "type": "string",
-                  "pattern": "^[a-z0-9]+/[a-z0-9]+(?:/[a-z0-9]+)?$"
+                  "pattern": "^[a-z0-9]+/[a-z0-9]+(?:/[a-z0-9]+)?(?![\\s\\S])"
                 }
               }
             },
@@ -151,11 +151,11 @@
                     "properties": {
                       "repository": {
                         "type": "string",
-                        "pattern": "^https://[^\\s]+$"
+                        "pattern": "^https://[^\\s]+(?![\\s\\S])"
                       },
                       "commit": {
                         "type": "string",
-                        "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                        "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})(?![\\s\\S])"
                       }
                     },
                     "required": [
@@ -176,7 +176,7 @@
                     "properties": {
                       "url": {
                         "type": "string",
-                        "pattern": "^https://[^\\s]+$"
+                        "pattern": "^https://[^\\s]+(?![\\s\\S])"
                       }
                     },
                     "required": [
@@ -192,7 +192,7 @@
                 "anyOf": [
                   {
                     "type": "string",
-                    "pattern": "^https://[^\\s]+$"
+                    "pattern": "^https://[^\\s]+(?![\\s\\S])"
                   },
                   {
                     "type": "null"
@@ -294,11 +294,11 @@
                       "properties": {
                         "repository": {
                           "type": "string",
-                          "pattern": "^https://[^\\s]+$"
+                          "pattern": "^https://[^\\s]+(?![\\s\\S])"
                         },
                         "commit": {
                           "type": "string",
-                          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})(?![\\s\\S])"
                         }
                       },
                       "required": [
@@ -312,7 +312,7 @@
                       "properties": {
                         "url": {
                           "type": "string",
-                          "pattern": "^https://[^\\s]+$"
+                          "pattern": "^https://[^\\s]+(?![\\s\\S])"
                         }
                       },
                       "required": [
@@ -351,7 +351,7 @@
                     },
                     "upstream": {
                       "type": "string",
-                      "pattern": "^https://[^\\s]+$"
+                      "pattern": "^https://[^\\s]+(?![\\s\\S])"
                     }
                   }
                 }
