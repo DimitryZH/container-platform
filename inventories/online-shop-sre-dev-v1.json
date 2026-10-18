@@ -25,11 +25,13 @@
     "sre-packaged-subchart": "https://github.com/DimitryZH/sre-platform/blob/d21d2c2bc9ae01504f6973a01168bb747cb0e5f9/charts/platform/charts/online-shop-service-0.1.0.tgz",
     "sre-rollout": "https://github.com/DimitryZH/sre-platform/blob/d21d2c2bc9ae01504f6973a01168bb747cb0e5f9/charts/platform/templates/frontend-rollout.yaml",
     "sre-failure-injection": "https://github.com/DimitryZH/sre-platform/blob/d21d2c2bc9ae01504f6973a01168bb747cb0e5f9/charts/platform/templates/break-backend.yaml",
-    "aml-manifests": "https://github.com/DimitryZH/application-modernization-lab/blob/9bd877163115feab9f2902142a39474a8e5227c6/experiments/06-online-boutique/01-kubernetes-to-compose/upstream/release/kubernetes-manifests.yaml",
-    "aml-baseline": "https://github.com/DimitryZH/application-modernization-lab/blob/9bd877163115feab9f2902142a39474a8e5227c6/experiments/06-online-boutique/01-kubernetes-to-compose/README.md",
+    "aml-manifests": "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/kubernetes/online-shop.yaml",
+    "aml-baseline": "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/README.md",
     "ci-publication": "https://github.com/DimitryZH/ci-build-platform/blob/5c9ab4626f7b6e4f3f7104299eb8a0fecfe8f185/.github/workflows/build-and-push.yml",
     "upstream-manifests": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
-    "upstream-assistant": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/src/frontend/handlers.go"
+    "upstream-assistant": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/src/frontend/handlers.go",
+    "aml-images": "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/images.lock.json",
+    "aml-upstream": "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/UPSTREAM.md"
   },
   "components": [
     {
@@ -51,7 +53,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -73,7 +76,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -95,7 +99,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -117,7 +122,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -139,7 +145,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -161,7 +168,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -183,7 +191,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -205,7 +214,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -227,7 +237,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -249,7 +260,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -271,7 +283,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     },
     {
@@ -293,7 +306,8 @@
         "sre-defaults",
         "sre-dev",
         "upstream-manifests",
-        "aml-manifests"
+        "aml-manifests",
+        "aml-images"
       ]
     }
   ],
