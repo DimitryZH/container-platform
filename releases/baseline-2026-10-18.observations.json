@@ -1,0 +1,317 @@
+{
+  "observationVersion": 1,
+  "releaseId": "baseline-2026-10-18-001",
+  "method": "Public read-only Registry HTTP API: tag resolution, separate GET by digest, SHA-256 of returned manifest bytes, config blob metadata. No image layers pulled or containers run.",
+  "observations": [
+    {
+      "id": "frontend",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-frontend",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:12:52Z",
+      "digest": "sha256:4ed23083391deed59d3dab4a3c72d6c49120f6100f45593b87a537dc094397cd",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:732f1b283f3826e0a88b5edac81184fc328efe80709b1fae9805b98386da5c15",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:09Z",
+        "status": 200
+      }
+    },
+    {
+      "id": "cartservice",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-cartservice",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:12:53Z",
+      "digest": "sha256:a48c617b36f12d755486b58feb4e04beeadf20216a017c4dbe5002c3bcd345b8",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:68aa2ce63123423241498a1258355b59e6fea92ce7d6ce1b9003dc0f81175a4d",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:10Z",
+        "status": 200
+      }
+    },
+    {
+      "id": "checkoutservice",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-checkoutservice",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:12:54Z",
+      "digest": "sha256:51774b1e98dc0454ffcf3782f8a092ac5c440cbeaea25e1e0e416c92c7ba7b5b",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:bdeeee0e500354ff7070f4d16222e03b41583819de20f39f9f5089d79c1ddf5f",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:10Z",
+        "status": 200
+      }
+    },
+    {
+      "id": "paymentservice",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-paymentservice",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:12:54Z",
+      "digest": "sha256:38912ba85fabc875a57cf981a691cfd3dca96c500ffd03b276bbf65ab6e98d08",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:39a68d69290ee855da1fd3f644e3581e63cc519ecd5e9d4f4243eab05e025a0c",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:10Z",
+        "status": 200
+      }
+    },
+    {
+      "id": "adservice",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-adservice",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:12:55Z",
+      "digest": "sha256:5a6092151983bf98a05279ff5a64ae82e18f872a3a14b5eddd35da16434e20b8",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:f0248d1fbe28e164fa50784b74d5d6b09e58392894675ca3c1e178bb760c332c",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:10Z",
+        "status": 200
+      }
+    },
+    {
+      "id": "currencyservice",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-currencyservice",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:12:56Z",
+      "digest": "sha256:475209eabe92828ec843d24dce59738cfe48def54eadcca807b26c0fd39158db",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:32890d8230bfaca3d6101e95702fb811434146b5c787e3c586f5c044b7fde0d2",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:11Z",
+        "status": 200
+      }
+    },
+    {
+      "id": "emailservice",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-emailservice",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:12:57Z",
+      "digest": "sha256:17cffb78f3d8383b0ee1ad8875fc0ef87b920a912302995ad127a5585f2160e2",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:51e9672094c676c019c24e1b21239ae1dd7a9462a85f8b1327239b355b812a6d",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:11Z",
+        "status": 200
+      }
+    },
+    {
+      "id": "loadgenerator",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-loadgenerator",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:12:58Z",
+      "digest": "sha256:fe1d8c6249789fbfe016d144a9cbbb5bffa1ede02769f6b24bd31e9beaadf68c",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:545b321a960891778b307c4c0d9140243bb84e7f45a47366623234419ac2556a",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:11Z",
+        "status": 200
+      }
+    },
+    {
+      "id": "productcatalogservice",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-productcatalogservice",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:12:58Z",
+      "digest": "sha256:efa78eeacc26d7de07388c9c3eb90aeb0dfa8324fce33deb157393d5c1f39119",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:5604602ebb6f910c9e1bc906718d631e6415207f6da1e646a045eaebde86fad8",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:11Z",
+        "status": 200
+      }
+    },
+    {
+      "id": "recommendationservice",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-recommendationservice",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:12:59Z",
+      "digest": "sha256:3f6cf3f0625b56d05e49741202167d0fcaf6c065ef386f66307e3e1a9dc895b8",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:a1cb0d1d4147e6ab854f838eec3625fa41acea14820fd36654c09c308b6554c6",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:12Z",
+        "status": 200
+      }
+    },
+    {
+      "id": "redis-cart",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-redis-cart",
+      "discoveryTag": "7-alpine",
+      "observedAt": "2026-10-18T14:13:00Z",
+      "digest": "sha256:81be8a1f52db5f99fe3de0bbbd2efce827f51ce409155a95e9bdbac8c2721ba6",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:aa189b5a1954929c393585e6dc5717a75b18f75a931df8bdcc00a3d3bd546be6",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "exact official-image identity unresolved; same digest lookup in docker.io/library/redis returned HTTP 404",
+        "configRedisVersion": "7.4.8"
+      }
+    },
+    {
+      "id": "shippingservice",
+      "repository": "docker.io/dmitryzhuravlev/online-shop-shippingservice",
+      "discoveryTag": "v0.10.4",
+      "observedAt": "2026-10-18T14:13:01Z",
+      "digest": "sha256:ec32ef03a874640dbdceb7850327a3f38a7f20b06479be27786ff3fe25569ce2",
+      "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+      "kind": "manifest",
+      "digestRequestStatus": 200,
+      "manifestContentSha256Matched": true,
+      "platforms": [
+        "linux/amd64"
+      ],
+      "platformEvidence": {
+        "configDigest": "sha256:a115d06510ef25725f28fe8957fca4beb679c4dc5b368ca50074284666af1aab",
+        "os": "linux",
+        "architecture": "amd64",
+        "sourceBuildLabelsPresent": false
+      },
+      "upstreamComparison": {
+        "result": "same manifest digest at upstream v0.10.4 tag",
+        "publisherReference": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+        "observedAt": "2026-10-18T14:14:12Z",
+        "status": 200
+      }
+    }
+  ]
+}

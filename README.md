@@ -4,13 +4,13 @@ Container Platform defines the contract for an **Online Shop** release composed 
 
 The project does not build application code or operate a Kubernetes cluster. Its target workflow turns images published to Docker Hub into a versioned release bundle pinned by digests for review, validation and promotion to the SRE Platform.
 
-> **Status:** MVP foundation — release contract and validation workflow are being established.
+> **Status:** Release contract v1 is defined; a digest-pinned baseline candidate and profile inventory are available for review. Automated validation and integrations remain planned.
 
 ## Why this platform exists
 
 The Online Shop consists of multiple independently built services. A successful build of each image does not by itself prove that the images form one compatible application release.
 
-The target platform will provide the release boundary below; only architecture, the v1 schema and a synthetic example are defined in this milestone:
+The target platform will provide the release boundary below; architecture, the v1 schema, a synthetic example and a discovered baseline candidate are available:
 
 - defines which images and immutable digests make up a release;
 - validates that the release is complete and follows container-release rules;
@@ -92,3 +92,7 @@ See the [roadmap](docs/roadmap.md) for the planned implementation sequence.
 - [Non-deployable synthetic example](examples/release-v1.example.json)
 
 The existing Dockerfiles and build/push scripts are empty, and Compose contains local-build placeholders. Their disposition is documented in the architecture; they are not a working release pipeline.
+
+## Baseline candidate
+
+See the [baseline discovery](docs/baseline.md), [profile inventory](inventories/online-shop-sre-dev-v1.json), [candidate](releases/baseline-2026-10-18.json), and [registry observations](releases/baseline-2026-10-18.observations.json). The selected dev profile includes 10 application services, Redis and a load generator. These namespace-published artifacts are third-party upstream copies/dependencies with legacy traceability gaps; this candidate is not approved or deployment-authorized.

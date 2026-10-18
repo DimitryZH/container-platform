@@ -1,6 +1,6 @@
 # Architecture
 
-Container Platform defines the release boundary for Online Shop, based on Online Boutique / microservices-demo. This milestone defines architecture and a contract; executable validation and integrations remain planned.
+Container Platform defines the release boundary for Online Shop, based on Online Boutique / microservices-demo. The repository defines architecture and a contract, with a [discovered baseline candidate](baseline.md); executable validation and integrations remain planned.
 
 ## Target responsibilities and trust boundaries
 
@@ -22,7 +22,7 @@ flowchart LR
     DH -->|direct image distribution to nodes| GKE
 ```
 
-Solid image-distribution arrows and the dashed release-control path have different purposes. Container Platform is not a network proxy: Kubernetes pulls directly from Docker Hub. The diagram describes target relationships, not completed integrations. First-party images use the public `dmitryzhuravlev/online-shop-*` naming family; third-party dependencies have a separate allowlist.
+Solid image-distribution arrows and the dashed release-control path have different purposes. Container Platform is not a network proxy: Kubernetes pulls directly from Docker Hub. The diagram describes target relationships, not completed integrations. Future first-party application builds use exact allowlisted entries in the public `dmitryzhuravlev/online-shop-*` naming family. Namespace alone does not establish ownership: the discovered baseline contains upstream copies and a Redis dependency classified as third-party.
 
 No Container Platform cluster or permanent dev/stage environment is required. Future bounded local/CI Compose checks will consume published images. Secure Delivery Platform uses Artifact Registry and has Astronomy Shop as its future workload; that integration is outside this MVP.
 
