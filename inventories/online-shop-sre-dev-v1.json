@@ -1,0 +1,347 @@
+{
+  "inventoryVersion": 1,
+  "application": "online-shop",
+  "profile": "sre-dev-online-shop-v1",
+  "owner": "Container Platform maintainers",
+  "status": "baseline inventory proposed for review; not release approval",
+  "targetPlatforms": [
+    "linux/amd64"
+  ],
+  "selection": {
+    "sreRevision": "d21d2c2bc9ae01504f6973a01168bb747cb0e5f9",
+    "chartPath": "charts/platform",
+    "valueFiles": [
+      "charts/platform/values.yaml",
+      "environments/dev/values/platform.yaml"
+    ],
+    "mergeRule": "Packaged subchart defaults, umbrella chart defaults, then recursive dev map overrides; no CLI image overrides. Use the committed packaged dependency, without dependency update.",
+    "releaseName": "online-shop-dev"
+  },
+  "sources": {
+    "sre-chart": "https://github.com/DimitryZH/sre-platform/blob/d21d2c2bc9ae01504f6973a01168bb747cb0e5f9/charts/platform/Chart.yaml",
+    "sre-defaults": "https://github.com/DimitryZH/sre-platform/blob/d21d2c2bc9ae01504f6973a01168bb747cb0e5f9/charts/platform/values.yaml",
+    "sre-dev": "https://github.com/DimitryZH/sre-platform/blob/d21d2c2bc9ae01504f6973a01168bb747cb0e5f9/environments/dev/values/platform.yaml",
+    "sre-application": "https://github.com/DimitryZH/sre-platform/blob/d21d2c2bc9ae01504f6973a01168bb747cb0e5f9/environments/dev/argocd/apps/online-shop-dev.yaml",
+    "sre-packaged-subchart": "https://github.com/DimitryZH/sre-platform/blob/d21d2c2bc9ae01504f6973a01168bb747cb0e5f9/charts/platform/charts/online-shop-service-0.1.0.tgz",
+    "sre-rollout": "https://github.com/DimitryZH/sre-platform/blob/d21d2c2bc9ae01504f6973a01168bb747cb0e5f9/charts/platform/templates/frontend-rollout.yaml",
+    "sre-failure-injection": "https://github.com/DimitryZH/sre-platform/blob/d21d2c2bc9ae01504f6973a01168bb747cb0e5f9/charts/platform/templates/break-backend.yaml",
+    "aml-manifests": "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/kubernetes/online-shop.yaml",
+    "aml-baseline": "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/README.md",
+    "ci-publication": "https://github.com/DimitryZH/ci-build-platform/blob/5c9ab4626f7b6e4f3f7104299eb8a0fecfe8f185/.github/workflows/build-and-push.yml",
+    "upstream-manifests": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/release/kubernetes-manifests.yaml",
+    "upstream-assistant": "https://github.com/GoogleCloudPlatform/microservices-demo/blob/474d0f2eb73d97525234995a40d7781b7923a07d/src/frontend/handlers.go",
+    "aml-images": "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/images.lock.json",
+    "aml-upstream": "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/UPSTREAM.md"
+  },
+  "components": [
+    {
+      "id": "frontend",
+      "role": "application-service",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "frontend",
+      "sreWorkload": "frontend",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-frontend"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "cartservice",
+      "role": "application-service",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "cart",
+      "sreWorkload": "cart",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-cartservice"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "checkoutservice",
+      "role": "application-service",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "checkout",
+      "sreWorkload": "checkout",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-checkoutservice"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "paymentservice",
+      "role": "application-service",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "payment",
+      "sreWorkload": "payment",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-paymentservice"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "adservice",
+      "role": "application-service",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "adservice",
+      "sreWorkload": "adservice",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-adservice"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "currencyservice",
+      "role": "application-service",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "currencyservice",
+      "sreWorkload": "currencyservice",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-currencyservice"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "emailservice",
+      "role": "application-service",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "emailservice",
+      "sreWorkload": "emailservice",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-emailservice"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "loadgenerator",
+      "role": "auxiliary",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "loadgenerator",
+      "sreWorkload": "loadgenerator",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-loadgenerator"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "productcatalogservice",
+      "role": "application-service",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "productcatalogservice",
+      "sreWorkload": "productcatalogservice",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-productcatalogservice"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "recommendationservice",
+      "role": "application-service",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "recommendationservice",
+      "sreWorkload": "recommendationservice",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-recommendationservice"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "redis-cart",
+      "role": "runtime-dependency",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "redis",
+      "sreWorkload": "redis",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-redis-cart"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-published-redis-origin-not-fully-traced",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    },
+    {
+      "id": "shippingservice",
+      "role": "application-service",
+      "class": "third-party",
+      "required": true,
+      "sreAlias": "shippingservice",
+      "sreWorkload": "shippingservice",
+      "allowedRepositories": [
+        "docker.io/dmitryzhuravlev/online-shop-shippingservice"
+      ],
+      "targetPlatforms": [
+        "linux/amd64"
+      ],
+      "publication": "namespace-copy-of-upstream",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "sre-dev",
+        "upstream-manifests",
+        "aml-manifests",
+        "aml-images"
+      ]
+    }
+  ],
+  "excludedComponents": [
+    {
+      "id": "shoppingassistantservice",
+      "reason": "No chart dependency/workload; ENABLE_ASSISTANT is absent. The address alone does not enable the optional feature.",
+      "discoverySources": [
+        "sre-chart",
+        "sre-defaults",
+        "upstream-assistant"
+      ]
+    },
+    {
+      "id": "break-500",
+      "reason": "Rendered SRE failure-injection tool using go-httpbin, not application release membership.",
+      "discoverySources": [
+        "sre-failure-injection",
+        "sre-defaults"
+      ]
+    },
+    {
+      "id": "upstream-loadgenerator-frontend-check",
+      "reason": "The upstream manifests include a BusyBox init container; the selected SRE chart has no such init container.",
+      "discoverySources": [
+        "upstream-manifests",
+        "sre-packaged-subchart"
+      ]
+    }
+  ],
+  "scopeNotes": [
+    "Loadgenerator is required for this profile because the SRE chart includes it without a disabling condition; it is not an application service.",
+    "Argo CD, Argo Rollouts controller, monitoring, ingress, evidence tooling and traffic/failure tooling remain SRE-owned outside the application release.",
+    "All 11 application/helper digests match upstream v0.10.4 manifests. Redis metadata identifies Redis 7.4.8; exact official-image equivalence is not established. No first-party builds are demonstrated by this baseline.",
+    "Inventory adoption and future changes require maintainer review with application and producer owners under release contract v1."
+  ]
+}

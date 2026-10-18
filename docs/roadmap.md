@@ -50,12 +50,14 @@ A reader can distinguish a successful image build from an approved multi-service
 - inventory the required Online Shop services in Docker Hub;
 - resolve and record the immutable digest of each required image;
 - record the available source revision and CI build references;
-- create the first release manifest from the existing compatible image set;
+- create the first release candidate from the existing published image set; compatibility requires later integration checks;
 - document any image or metadata gaps instead of inventing provenance.
 
 ### Target outcome
 
 The repository contains one real, fully enumerated Online Shop release candidate based on published images rather than placeholder tags.
+
+Baseline artifacts proposed for review: [discovery and limitations](baseline.md), [profile inventory](../inventories/online-shop-sre-dev-v1.json), and [digest-pinned candidate](../releases/baseline-2026-10-18.json). Registry availability and structural consistency do not establish compatibility or approval.
 
 ---
 
