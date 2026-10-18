@@ -8,7 +8,7 @@
     "upstreamVersion": null
   },
   "inventory": {
-    "revision": "5fbe7f5d773bfa03bcbacc862829e1820642712c",
+    "revision": "480bd0a5769ae61313c4bd0da846ba3a6fc0ce51",
     "path": "inventories/online-shop-sre-dev-v1.json"
   },
   "components": [

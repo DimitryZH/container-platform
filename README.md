@@ -96,3 +96,5 @@ The existing Dockerfiles and build/push scripts are empty, and Compose contains 
 ## Baseline candidate
 
 See the [baseline discovery](docs/baseline.md), [profile inventory](inventories/online-shop-sre-dev-v1.json), [candidate](releases/baseline-2026-10-18.json), and [registry observations](releases/baseline-2026-10-18.observations.json). The selected dev profile includes 10 application services, Redis and a load generator. These namespace-published artifacts are third-party upstream copies/dependencies with legacy traceability gaps; this candidate is not approved or deployment-authorized.
+
+Canonical Online Shop source and Dockerfiles are available in [Application Modernization Lab](https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/README.md). Its adapted profile confirms the selected image mappings; the pinned SRE configuration remains authoritative for this baseline. Existing images were not built from that canonical path and retain legacy source/build gaps.
