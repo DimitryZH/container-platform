@@ -72,3 +72,7 @@ Tests mock HTTP exchanges/streams and forbid Python sockets. They cover public a
 See the [2026-10-19 live validation record](registry-validation-2026-10-19.md): all 12 inspections were attempted, but public token-endpoint TLS validation blocked completion. No successful live artifact verification is claimed.
 
 The [TLS follow-up](registry-tls-diagnostics-2026-10-19.md) identifies an expired locally loaded public CA cross-certificate selected by Python, compares Schannel results, and provides the owner rerun command. The original full-run record is preserved.
+
+## Subsequent successful Linux observation
+
+The [separate Linux live record](registry-validation-linux-2026-10-19.md) reports a later run of the same implementation with default TLS: **12/12 registry metadata checks passed**, all **12 legacy failures** remained visible, and the overall exit code was **1**. The earlier Windows failure and TLS diagnosis remain preserved. No baseline approval is implied.
