@@ -1,6 +1,6 @@
 # Offline release validation
 
-The Python CLI checks release contract v1 against its immutable inventory using local files and Git objects only. Python **3.11 or newer** and Git are required. Windows PowerShell and Linux are supported; Bash is not required. Installation may download Python dependencies; evaluation itself performs no network retrieval.
+The Python CLI checks release contract v1 against its immutable inventory using local files and Git objects only. Python **3.11 or newer** and Git are required. Windows PowerShell and Linux are supported; Bash is not required. Installation may download Python dependencies; offline evaluation itself performs no network retrieval. [Docker Hub metadata verification](registry-verification.md) is available only with explicit `--registry` opt-in.
 
 ## Install and run
 
@@ -82,4 +82,4 @@ Stable reason codes are:
 | Candidate policy | `application_mismatch`, `component_duplicate`, `component_unknown`, `component_missing`, `component_class_mismatch`, `repository_disallowed`, `platforms_mismatch`, `legacy_ineligible` |
 | Execution/dependency | `usage_error`, `candidate_unreadable`, `repository_unavailable`, `git_unavailable`, `git_execution_error`, `prerequisite_failed` |
 
-Legacy exceptions are not supported. Recorded source/build URLs and publisher references are metadata, not cryptographically verified provenance. A committed inventory is the explicitly selected policy input; the CLI does not establish that maintainers approved that commit. Registry availability, integration compatibility, mandatory PR gates, release approval, SRE handoff and deployment authorization remain separate future checks/decisions. This issue implements only the offline portion of Executable Release Validation; Docker Hub verification follows separately.
+Legacy exceptions are not supported. Recorded source/build URLs and publisher references are metadata, not cryptographically verified provenance. A committed inventory is the explicitly selected policy input; the CLI does not establish that maintainers approved that commit. Offline mode does not check registry availability. Integration compatibility, mandatory PR gates, release approval, SRE handoff and deployment authorization remain separate future checks/decisions. This issue implements only the offline portion of Executable Release Validation; Optional [Docker Hub metadata verification](registry-verification.md) is now implemented separately; registry mode uses output version 2 and preserves independent traceability failures.

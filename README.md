@@ -1,10 +1,10 @@
 # Container Platform
 
-Container Platform defines the contract for an **Online Shop** release composed of independently built container images. Offline release validation is implemented; registry verification remains planned.
+Container Platform defines the contract for an **Online Shop** release composed of independently built container images. Offline release validation and opt-in Docker Hub metadata verification are implemented.
 
 The project does not build application code or operate a Kubernetes cluster. Its target workflow turns images published to Docker Hub into a versioned release bundle pinned by digests for review, validation and promotion to the SRE Platform.
 
-> **Status:** Release contract v1 is defined; a digest-pinned baseline candidate and profile inventory are available for review. Offline validation is implemented; registry checks and integrations remain planned.
+> **Status:** Release contract v1 is defined; a digest-pinned baseline candidate and profile inventory are available for review. Offline and opt-in registry metadata checks are implemented; PR gates and integrations remain planned.
 
 ## Why this platform exists
 
@@ -39,7 +39,7 @@ The two paths into the SRE Platform have different roles:
 - Docker Hub is the data path: Kubernetes nodes pull the approved images from `dmitryzhuravlev/online-shop-*`.
 - Container Platform is the release-control path: it identifies the exact image digests that are approved together as one Online Shop release.
 
-The diagram describes target relationships. The offline validator is implemented. Registry checks, GitHub Actions gates, Compose integration and SRE handoff remain planned.
+The diagram describes target relationships. The offline validator and opt-in Docker Hub metadata checks are implemented. GitHub Actions gates, Compose integration and SRE handoff remain planned.
 
 ## Responsibilities
 
@@ -108,3 +108,7 @@ python -m container_platform releases/baseline-2026-10-18.json --repository . --
 ```
 
 The committed baseline passes structure and inventory checks but returns exit code **1** with 12 legacy-ineligibility diagnostics. Passing offline rules does not establish approval or deployment authorization. See [installation, checks and output/exit-code semantics](docs/offline-validation.md).
+
+## Optional Docker Hub verification
+
+Add `--registry` to inspect immutable manifest/config bytes and declared platforms after local prerequisites pass. Legacy failures remain visible and keep the baseline unsuccessful. No layers are downloaded, and metadata success grants no approval or deployment authorization. See [transport restrictions, output v2 and limits](docs/registry-verification.md).

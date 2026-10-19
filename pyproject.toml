@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "container-platform"
 version = "0.1.0"
-description = "Offline validation of Container Platform release candidates"
+description = "Release validation with optional public Docker Hub metadata verification"
 requires-python = ">=3.11"
 dependencies = ["jsonschema>=4.23,<5", "referencing>=0.35,<1"]
 

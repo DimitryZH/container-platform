@@ -33,7 +33,7 @@ The platform must remain focused on image-release composition and validation. It
 - define the promotion and rollback semantics at a repository level;
 - define MVP non-goals and trust boundaries.
 
-Artifacts: [architecture](architecture.md), [canonical contract](release-contract.md), [v1 schema](../schemas/release-v1.schema.json), and [non-deployable example](../examples/release-v1.example.json). Offline validation is implemented; registry verification and integrations remain planned.
+Artifacts: [architecture](architecture.md), [canonical contract](release-contract.md), [v1 schema](../schemas/release-v1.schema.json), and [non-deployable example](../examples/release-v1.example.json). Offline validation and opt-in registry metadata verification are implemented; PR gates and integrations remain planned.
 
 ### Target outcome
 
@@ -65,7 +65,7 @@ Baseline artifacts proposed for review: [discovery and limitations](baseline.md)
 
 **Goal:** Turn the release contract into deterministic policy checks.
 
-The [offline CLI](offline-validation.md) implements strict JSON/schema checks, immutable local inventory evaluation and traceability eligibility with automated tests. Read-only Docker Hub verification is the next issue; this milestone is not complete.
+The [offline CLI](offline-validation.md) implements strict JSON/schema checks, immutable local inventory evaluation and traceability eligibility with automated tests. [Opt-in Docker Hub metadata verification](registry-verification.md) adds bounded manifest/config integrity and platform checks. Milestone closure remains a separate owner decision; PR gates and integration validation remain future work.
 
 ### Scope
 
@@ -74,7 +74,7 @@ The [offline CLI](offline-validation.md) implements strict JSON/schema checks, i
 - enforce exact first-party allowlist entries under `dmitryzhuravlev/online-shop-*` and a separate third-party dependency allowlist;
 - prohibit mutable image selection such as `latest` and require immutable digest references;
 - validate source and CI metadata where it is required by the contract;
-- verify that each referenced image digest resolves in Docker Hub;
+- verify that each referenced manifest digest resolves in Docker Hub, checking manifest/config integrity and target-platform metadata without downloading layers;
 - expose clear, fail-closed error messages.
 
 ### Target outcome
