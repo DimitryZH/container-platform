@@ -33,7 +33,7 @@ The platform must remain focused on image-release composition and validation. It
 - define the promotion and rollback semantics at a repository level;
 - define MVP non-goals and trust boundaries.
 
-Artifacts: [architecture](architecture.md), [canonical contract](release-contract.md), [v1 schema](../schemas/release-v1.schema.json), and [non-deployable example](../examples/release-v1.example.json). Executable validation and integrations remain planned.
+Artifacts: [architecture](architecture.md), [canonical contract](release-contract.md), [v1 schema](../schemas/release-v1.schema.json), and [non-deployable example](../examples/release-v1.example.json). Offline validation is implemented; registry verification and integrations remain planned.
 
 ### Target outcome
 
@@ -64,6 +64,8 @@ Baseline artifacts proposed for review: [discovery and limitations](baseline.md)
 ## Milestone 3 — Executable Release Validation
 
 **Goal:** Turn the release contract into deterministic policy checks.
+
+The [offline CLI](offline-validation.md) implements strict JSON/schema checks, immutable local inventory evaluation and traceability eligibility with automated tests. Read-only Docker Hub verification is the next issue; this milestone is not complete.
 
 ### Scope
 
