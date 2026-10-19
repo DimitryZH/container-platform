@@ -68,3 +68,5 @@ Registry reason codes:
 - `registry_unsafe_challenge`, `registry_unsafe_redirect`, `registry_limits_exhausted`.
 
 Tests mock HTTP exchanges/streams and forbid Python sockets. They cover public auth, destination/credential boundaries, byte and request budgets, retries, manifests/indexes/configs, independent legacy failures, output agreement and the unchanged offline suite. A separate live record reports actual registry observations and blockers; historical baseline observations remain unchanged. GitHub Actions gates, Compose integration, promotion, legacy exceptions and provenance verification are outside this implementation.
+
+See the [2026-10-19 live validation record](registry-validation-2026-10-19.md): all 12 inspections were attempted, but public token-endpoint TLS validation blocked completion. No successful live artifact verification is claimed.
