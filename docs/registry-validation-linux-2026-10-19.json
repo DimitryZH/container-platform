@@ -1,0 +1,201 @@
+{
+  "observationVersion": 1,
+  "startedAt": "2026-10-19T14:43:38+00:00",
+  "finishedAt": "2026-10-19T14:43:47+00:00",
+  "environment": {
+    "os": "existing Ubuntu WSL",
+    "python": "3.12.3",
+    "openssl": "OpenSSL 3.0.13 30 Jan 2024",
+    "trust": "Linux default SSL context; certificate and hostname verification enabled"
+  },
+  "implementationRevision": "235291f386a0d4a7c4229248580fa1bf2ecde3e0",
+  "baselineRevision": "235291f386a0d4a7c4229248580fa1bf2ecde3e0",
+  "baselinePath": "releases/baseline-2026-10-18.json",
+  "inventory": {
+    "revision": "480bd0a5769ae61313c4bd0da846ba3a6fc0ce51",
+    "path": "inventories/online-shop-sre-dev-v1.json"
+  },
+  "installedCodeAndSchemaMatched": true,
+  "automatedTests": {
+    "count": 48,
+    "result": "pass"
+  },
+  "tlsPreflight": [
+    {
+      "host": "auth.docker.io",
+      "defaultTLS": "pass"
+    },
+    {
+      "host": "registry-1.docker.io",
+      "defaultTLS": "pass"
+    }
+  ],
+  "processExitCode": 1,
+  "stderrEmpty": true,
+  "report": {
+    "outputSchemaVersion": 2,
+    "result": "validation_failed",
+    "exitCode": 1,
+    "scope": "Offline and Docker Hub metadata rules only. Image-layer availability, future retention, publisher trust/verified provenance, integration compatibility, inventory/release approval and deployment authorization are not evaluated.",
+    "diagnostics": [],
+    "checks": [
+      {
+        "id": "candidate.parse",
+        "status": "pass",
+        "diagnostics": []
+      },
+      {
+        "id": "candidate.schema",
+        "status": "pass",
+        "diagnostics": []
+      },
+      {
+        "id": "candidate.purpose",
+        "status": "pass",
+        "diagnostics": []
+      },
+      {
+        "id": "inventory.resolve",
+        "status": "pass",
+        "diagnostics": []
+      },
+      {
+        "id": "inventory.parse",
+        "status": "pass",
+        "diagnostics": []
+      },
+      {
+        "id": "inventory.policy",
+        "status": "pass",
+        "diagnostics": []
+      },
+      {
+        "id": "candidate.inventory",
+        "status": "pass",
+        "diagnostics": []
+      },
+      {
+        "id": "candidate.traceability",
+        "status": "fail",
+        "diagnostics": [
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[0].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[1].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[2].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[3].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[4].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[5].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[6].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[7].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[8].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[9].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[10].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          },
+          {
+            "code": "legacy_ineligible",
+            "path": "$.components[11].traceability.status",
+            "message": "Legacy artifact is traceability-ineligible; exceptions are not supported."
+          }
+        ]
+      },
+      {
+        "id": "registry.artifacts",
+        "status": "pass",
+        "diagnostics": [],
+        "components": [
+          {
+            "componentIndex": 0,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 1,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 2,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 3,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 4,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 5,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 6,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 7,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 8,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 9,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 10,
+            "status": "pass"
+          },
+          {
+            "componentIndex": 11,
+            "status": "pass"
+          }
+        ]
+      }
+    ],
+    "mode": "registry"
+  }
+}

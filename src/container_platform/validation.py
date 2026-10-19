@@ -1,4 +1,4 @@
-"""Deterministic offline evaluation; no registry or deployment operations."""
+"""Release evaluation; registry operations require explicit opt-in."""
 
 import json
 import math
@@ -42,8 +42,8 @@ def diagnostic(code, message, path="$"):
     return {"code": code, "path": path, "message": message}
 
 
-def new_result():
-    return {
+def new_result(registry=False):
+    result = {
         "outputSchemaVersion": 1,
         "result": "validation_failed",
         "exitCode": 1,
@@ -58,6 +58,19 @@ def new_result():
             for stage in STAGES
         ],
     }
+    if registry:
+        result.update(
+            outputSchemaVersion=2, mode="registry",
+            scope=("Offline and Docker Hub metadata rules only. Image-layer availability, "
+                   "future retention, publisher trust/verified provenance, integration compatibility, "
+                   "inventory/release approval and deployment authorization are not evaluated."),
+        )
+        result["checks"].append({
+            "id": "registry.artifacts", "status": "skipped",
+            "diagnostics": [diagnostic("prerequisite_failed", "Not evaluated: prerequisite checks did not pass.")],
+            "components": [],
+        })
+    return result
 
 
 def strict_json(data):
@@ -271,10 +284,10 @@ def traceability_errors(candidate):
     ]
 
 
-def validate(candidate_path, repository):
-    result = new_result()
+def validate(candidate_path, repository, *, registry=False):
+    result = new_result(registry)
     candidate = inventory_bytes = inventory = schema = None
-    for check in result["checks"]:
+    for check in result["checks"][:len(STAGES)]:
         try:
             stage = check["id"]
             errors = []
@@ -306,7 +319,7 @@ def validate(candidate_path, repository):
             elif stage == "candidate.traceability":
                 errors = traceability_errors(candidate)
             check.update(status="fail" if errors else "pass", diagnostics=errors)
-            if errors:
+            if errors and stage != "candidate.traceability":
                 return result
         except Failure as error:
             check.update(status="fail", diagnostics=[diagnostic(error.code, str(error))])
@@ -320,5 +333,15 @@ def validate(candidate_path, repository):
         except (RecursionError, OverflowError):
             check.update(status="fail", diagnostics=[diagnostic("validation_limits_exceeded", "Input exceeds supported evaluation limits.")])
             return result
-    result.update(result="offline_rules_passed", exitCode=0)
+    if registry:
+        # Imported/constructed only after all shared prerequisites have passed.
+        from .registry import inspect_components
+
+        components, errors, execution_error = inspect_components(candidate)
+        result["checks"][-1].update(status="fail" if errors else "pass", diagnostics=errors, components=components)
+        if execution_error:
+            result.update(result="execution_error", exitCode=2)
+            return result
+    if all(check["status"] == "pass" for check in result["checks"]):
+        result.update(result="selected_rules_passed" if registry else "offline_rules_passed", exitCode=0)
     return result
