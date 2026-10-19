@@ -1,6 +1,6 @@
 # Architecture
 
-Container Platform defines the release boundary for Online Shop, based on Google microservices-demo. The repository defines architecture and a contract, with a [discovered baseline candidate](baseline.md); executable validation and integrations remain planned.
+Container Platform defines the release boundary for Online Shop, based on Google microservices-demo. The repository defines architecture and a contract, with a [discovered baseline candidate](baseline.md); [offline validation](offline-validation.md) is implemented, while registry verification and integrations remain planned.
 
 ## Target responsibilities and trust boundaries
 

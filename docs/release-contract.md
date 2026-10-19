@@ -1,10 +1,10 @@
 # Release contract v1
 
-This document is the canonical format and policy specification. The [JSON Schema](../schemas/release-v1.schema.json) uses JSON Schema Draft 2020-12. The [illustrative manifest](../examples/release-v1.example.json) is synthetic, incomplete and **non-deployable**. No production release or executable validator is supplied by this milestone.
+This document is the canonical format and policy specification. The [JSON Schema](../schemas/release-v1.schema.json) uses JSON Schema Draft 2020-12. The [illustrative manifest](../examples/release-v1.example.json) is synthetic, incomplete and **non-deployable**. The [offline CLI](offline-validation.md) implements strict parsing, schema/inventory checks and traceability eligibility. No approved production release is supplied.
 
 ## Encoding and identity
 
-V1 accepts UTF-8 JSON only; YAML is not accepted. Future parsers must reject duplicate object keys before schema validation, reject non-JSON numeric values and fail closed on parse errors. Ordinary JSON parsers may silently discard duplicate keys, so schema validation alone cannot enforce this requirement.
+V1 accepts UTF-8 JSON only; YAML is not accepted. The offline parser rejects duplicate object keys before schema validation, rejects non-JSON numeric values and fails closed on parse errors. Ordinary JSON parsers may silently discard duplicate keys, so schema validation alone cannot enforce this requirement.
 
 `notice` is a required nonempty human-readable description; examples must use exactly `NON-DEPLOYABLE SYNTHETIC EXAMPLE`.
 
@@ -18,7 +18,7 @@ Container Platform maintainers own and review the versioned service inventory an
 
 The [baseline discovery](baseline.md) records a proposed, committed inventory for the pinned `sre-dev-online-shop-v1` profile, reconciled from application manifests, SRE configuration and published artifacts. Its adoption still requires maintainer/owner review; it does not establish a universal service count or release approval. The synthetic example's inventory path and revision deliberately resolve to no usable baseline.
 
-A future semantic validator must require exactly the inventory's required component set for the chosen application profile: reject unknown IDs, missing required IDs, duplicate IDs (including entries with differing digests), unapproved repositories/classes/platforms and unresolved inventory references. V1 has no implicit optional services; distinct profiles require a separately reviewed inventory. JSON Schema cannot compare membership against an external inventory or enforce uniqueness by component ID; `uniqueItems` only rejects identical entries.
+The offline validator requires exactly the inventory's required component set for the chosen application profile: it rejects unknown IDs, missing required IDs, duplicate IDs (including entries with differing digests), repositories/classes/platforms outside the selected inventory and unresolved local inventory references. Candidate and inventory target platforms are compared as equal sets, independent of ordering; top-level inventory platforms, when present, must match each component. V1 has no implicit optional services; distinct profiles require a separately reviewed inventory. JSON Schema cannot compare membership against an external inventory or enforce uniqueness by component ID; `uniqueItems` only rejects identical entries.
 
 Artifact class follows origin and ownership, not the publication namespace. The discovered baseline contains third-party upstream copies and Redis; future owned application builds require a separate first-party mapping. First-party repositories must be exact reviewed entries within `docker.io/dmitryzhuravlev/online-shop-*`; the prefix alone is not authorization. Third-party dependencies such as Redis use independently reviewed Docker Hub repositories, versions/licenses and update policy; they need not use the first-party naming family. Legacy status describes traceability, not ownership, and can apply to either class.
 
@@ -49,13 +49,13 @@ The pull reference is `repository@digest`. Tags are not accepted selectors. For 
 ## Candidate, approval and deployment decisions
 
 1. **Structure:** parse strictly and validate against the pinned v1 schema. This establishes field shape only.
-2. **Release policy and registry (planned):** resolve reviewed inventory, exact membership/allowlists, identity uniqueness, traceability eligibility, digest kind/platforms and registry availability. Reject examples and unresolved references.
+2. **Offline release policy (implemented), registry (planned):** resolve the pinned local inventory, validate its structure and exact membership/allowlists, identity uniqueness, declared platforms and traceability eligibility. Reject examples and unresolved references. The CLI does not establish inventory approval. Registry digest kind/platform metadata and availability checks remain planned.
 3. **Integration (planned):** bounded Compose checks consume the selected published images. Record evidence tied to the exact candidate revision and image set. Structure and registry success do not establish service compatibility.
 4. **Container-release review:** maintainers review composition, policy results and required integration evidence. Approval is external review evidence tied to the exact manifest/revision, not a self-asserted manifest flag. Only a release PR reviewed by authorized maintainers with all documented mandatory checks passing may use merge as the approval event. Git merge itself performs no validation. Until those checks and review gates are implemented, merging this contract or an example approves no deployable release.
 5. **SRE promotion (planned):** SRE separately authorizes suitability for a specific environment through a reviewed GitOps change. It must record the full immutable Container Platform commit SHA and manifest path, and consume exactly that image set. A moving branch/tag is insufficient. Checking rendered SRE values against the manifest, making that check mandatory and protecting merges remain future implementation; bypasses are not blocked today.
 6. **Deployment and runtime:** Argo CD applies environment configuration; Kubernetes pulls from Docker Hub. SRE evaluates rollout health, observability, data/state constraints and operational acceptance.
 
-Evidence must be rerun or explicitly re-evaluated after candidate changes; results for another revision do not automatically apply. Required checks and authorization policy will be made executable in later milestones; this contract does not claim existing enforcement.
+Evidence must be rerun or explicitly re-evaluated after candidate changes; results for another revision do not automatically apply. The offline rules are executable locally; mandatory PR gates and authorization policy remain future implementation. This contract does not claim protected merges or deployment enforcement.
 
 ## Rollback
 
@@ -77,4 +77,4 @@ Draft202012Validator.check_schema(schema)
 Draft202012Validator(schema).validate(example)
 ```
 
-These checks are structural only. No production validator, persistent dependencies or CI checks are introduced.
+The snippet above checks structure only. Use the [offline CLI](offline-validation.md) for immutable-inventory and traceability evaluation; CI gates and registry verification remain planned.
