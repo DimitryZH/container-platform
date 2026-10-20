@@ -33,7 +33,7 @@ The platform must remain focused on image-release composition and validation. It
 - define the promotion and rollback semantics at a repository level;
 - define MVP non-goals and trust boundaries.
 
-Artifacts: [architecture](architecture.md), [canonical contract](release-contract.md), [v1 schema](../schemas/release-v1.schema.json), and [non-deployable example](../examples/release-v1.example.json). Offline validation and opt-in registry metadata verification are implemented; PR gates and integrations remain planned.
+Artifacts: [architecture](architecture.md), [canonical contract](release-contract.md), [v1 schema](../schemas/release-v1.schema.json), and [non-deployable example](../examples/release-v1.example.json). Offline validation and opt-in registry metadata verification are implemented; PR validation workflows are available; owner-required checks and integrations remain separate work.
 
 ### Target outcome
 
@@ -86,6 +86,8 @@ Invalid, incomplete, mutable, or unavailable releases cannot be presented as val
 ## Milestone 4 — Pull Request Gates & Integration Validation
 
 **Goal:** Make release validation repeatable and prove that the published images compose into an application.
+
+[Pull request checks](pull-request-validation.md) provide tests/package and new-candidate validation. Required-check settings are owner-configured; Compose integration remains unimplemented, so this milestone is not complete.
 
 ### Scope
 

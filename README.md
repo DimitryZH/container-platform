@@ -4,7 +4,7 @@ Container Platform defines the contract for an **Online Shop** release composed 
 
 The project does not build application code or operate a Kubernetes cluster. Its target workflow turns images published to Docker Hub into a versioned release bundle pinned by digests for review, validation and promotion to the SRE Platform.
 
-> **Status:** Release contract v1 is defined; a digest-pinned baseline candidate and profile inventory are available for review. Offline and opt-in registry metadata checks are implemented; PR gates and integrations remain planned.
+> **Status:** Release contract v1 is defined; a digest-pinned baseline candidate and profile inventory are available for review. Offline and opt-in registry metadata checks are implemented; Pull request checks are available; required-check rules are owner-configured. Compose and SRE integrations remain planned.
 
 ## Why this platform exists
 
@@ -39,7 +39,7 @@ The two paths into the SRE Platform have different roles:
 - Docker Hub is the data path: Kubernetes nodes pull the approved images from `dmitryzhuravlev/online-shop-*`.
 - Container Platform is the release-control path: it identifies the exact image digests that are approved together as one Online Shop release.
 
-The diagram describes target relationships. The offline validator and opt-in Docker Hub metadata checks are implemented. GitHub Actions gates, Compose integration and SRE handoff remain planned.
+The diagram describes target relationships. The offline validator and opt-in Docker Hub metadata checks are implemented. GitHub Actions validation checks are available; required-check configuration remains an owner action. Compose integration and SRE handoff remain planned.
 
 ## Responsibilities
 
@@ -112,3 +112,7 @@ The committed baseline passes structure and inventory checks but returns exit co
 ## Optional Docker Hub verification
 
 Add `--registry` to inspect immutable manifest/config bytes and declared platforms after local prerequisites pass. Legacy failures remain visible and keep the baseline unsuccessful. No layers are downloaded, and metadata success grants no approval or deployment authorization. See [transport restrictions, output v2 and limits](docs/registry-verification.md).
+
+## Pull request checks
+
+[GitHub Actions validation](docs/pull-request-validation.md) runs tests/package checks on Python 3.11 and 3.13 and a stable release check. New candidates receive opt-in registry validation; merged release files are immutable. No candidate changes produces an explicit successful result. The historical legacy baseline remains a negative regression fixture. Workflow availability does not configure required merge checks or grant release approval.

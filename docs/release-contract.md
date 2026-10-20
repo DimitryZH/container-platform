@@ -55,7 +55,7 @@ The pull reference is `repository@digest`. Tags are not accepted selectors. For 
 5. **SRE promotion (planned):** SRE separately authorizes suitability for a specific environment through a reviewed GitOps change. It must record the full immutable Container Platform commit SHA and manifest path, and consume exactly that image set. A moving branch/tag is insufficient. Checking rendered SRE values against the manifest, making that check mandatory and protecting merges remain future implementation; bypasses are not blocked today.
 6. **Deployment and runtime:** Argo CD applies environment configuration; Kubernetes pulls from Docker Hub. SRE evaluates rollout health, observability, data/state constraints and operational acceptance.
 
-Evidence must be rerun or explicitly re-evaluated after candidate changes; results for another revision do not automatically apply. The offline rules are executable locally; mandatory PR gates and authorization policy remain future implementation. This contract does not claim protected merges or deployment enforcement.
+Evidence must be rerun or explicitly re-evaluated after candidate changes; results for another revision do not automatically apply. The offline rules are executable locally; [PR validation workflows](pull-request-validation.md) are available; owner-required check configuration and authorization policy remain separate actions. This contract does not claim protected merges or deployment enforcement.
 
 ## Rollback
 
@@ -77,4 +77,6 @@ Draft202012Validator.check_schema(schema)
 Draft202012Validator(schema).validate(example)
 ```
 
-The snippet above checks structure only. Use the [offline CLI](offline-validation.md) for immutable-inventory and traceability evaluation; [Opt-in registry metadata verification](registry-verification.md) is implemented; CI gates remain planned.
+The snippet above checks structure only. Use the [offline CLI](offline-validation.md) for immutable-inventory and traceability evaluation; [Opt-in registry metadata verification](registry-verification.md) is implemented; [PR checks](pull-request-validation.md) are available; required merge protection remains an owner action.
+
+Merged manifest files remain immutable even before release approval; corrections use a new file and release ID. The [PR checks](pull-request-validation.md) evaluate cumulative additions and do not grant eligibility to historical legacy fixtures.
