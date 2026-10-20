@@ -49,6 +49,22 @@ def check(repository, wheel_directory):
             reports.append(report)
         if reports[0] != reports[1]:
             raise RuntimeError("Installed module and console results differ.")
+        profile = "aml-online-shop-compose-v1"
+        resource = run([python, "-c", "from importlib.resources import files; print(files('container_platform.profiles').joinpath('aml-online-shop-compose-v1.json').read_text(encoding='utf-8'), end='')"], outside, env)
+        if resource != (repo / "src/container_platform/profiles" / (profile + ".json")).read_text(encoding="utf-8"):
+            raise RuntimeError("Packaged Compose profile differs from its source.")
+        compose_console = str(binaries / ("container-compose.exe" if os.name == "nt" else "container-compose"))
+        artifacts = []
+        for index, command in enumerate(([python, "-m", "container_platform.compose"], [compose_console])):
+            destination = outside / f"compose-{index}.json"
+            report = json.loads(run([*command, str(repo / "releases/baseline-2026-10-18.json"),
+                                     "--repository", str(repo), "--profile", profile,
+                                     "--output", str(destination), "--inspection-only"], outside, env))
+            if report["exitCode"] != 0 or report["validation"]["exitCode"] != 1 or not report["inspectionOnly"]:
+                raise RuntimeError("Installed Compose inspection semantics changed.")
+            artifacts.append(destination.read_bytes())
+        if artifacts[0] != artifacts[1]:
+            raise RuntimeError("Installed rendering interfaces differ.")
 
 
 def main():
@@ -67,6 +83,7 @@ def main():
                 "### Tests and package\n\n"
                 + ("Pass" if passed else "Fail")
                 + ": automated offline tests; clean installed wheel; module/console and schema outside checkout.\n"
+                  "Compose: installed offline renderer/profile; baseline inspection preserves negative validation.\n"
                   "Baseline: expected negative regression, not release eligibility.\n",
                 encoding="utf-8",
             )
