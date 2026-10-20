@@ -4,7 +4,7 @@ Container Platform defines the contract for an **Online Shop** release composed 
 
 The project does not build application code or operate a Kubernetes cluster. Its target workflow turns images published to Docker Hub into a versioned release bundle pinned by digests for review, validation and promotion to the SRE Platform.
 
-> **Status:** Release contract v1 is defined; a digest-pinned baseline candidate and profile inventory are available for review. Offline and opt-in registry metadata checks are implemented; Pull request checks are available; required-check rules are owner-configured. Compose and SRE integrations remain planned.
+> **Status:** Release contract v1 is defined; a digest-pinned baseline candidate and profile inventory are available for review. Offline and opt-in registry metadata checks, PR checks and offline Compose rendering are available; required-check rules are owner-configured. Runtime integration and SRE handoff remain planned.
 
 ## Why this platform exists
 
@@ -39,7 +39,7 @@ The two paths into the SRE Platform have different roles:
 - Docker Hub is the data path: Kubernetes nodes pull the approved images from `dmitryzhuravlev/online-shop-*`.
 - Container Platform is the release-control path: it identifies the exact image digests that are approved together as one Online Shop release.
 
-The diagram describes target relationships. The offline validator and opt-in Docker Hub metadata checks are implemented. GitHub Actions validation checks are available; required-check configuration remains an owner action. Compose integration and SRE handoff remain planned.
+The diagram describes target relationships. Offline, opt-in Docker Hub metadata, PR checks and Compose rendering are implemented; required-check configuration remains an owner action. Runtime integration and SRE handoff remain planned.
 
 ## Responsibilities
 
@@ -91,7 +91,7 @@ See the [roadmap](docs/roadmap.md) for the planned implementation sequence.
 - [Version 1 JSON Schema](schemas/release-v1.schema.json)
 - [Non-deployable synthetic example](examples/release-v1.example.json)
 
-The existing Dockerfiles and build/push scripts are empty, and Compose contains local-build placeholders. Their disposition is documented in the architecture; they are not a working release pipeline.
+The existing Dockerfiles and build/push scripts are empty; root Compose contains legacy local-build placeholders. Use the [generated Compose workflow](docs/compose-rendering.md) for the supported profile. The scaffold is not a working release pipeline.
 
 ## Baseline candidate
 
@@ -116,3 +116,7 @@ Add `--registry` to inspect immutable manifest/config bytes and declared platfor
 ## Pull request checks
 
 [GitHub Actions validation](docs/pull-request-validation.md) runs tests/package checks on Python 3.11 and 3.13 and a stable release check. New candidates receive opt-in registry validation; merged release files are immutable. No candidate changes produces an explicit successful result. The historical legacy baseline remains a negative regression fixture. Workflow availability does not configure required merge checks or grant release approval.
+
+## Compose configuration
+
+[Offline Compose rendering](docs/compose-rendering.md) generates all 12 digest-pinned services from a candidate and the packaged AML profile. Legacy baseline rendering requires explicit `--inspection-only`; its validation remains negative. Static `docker compose config` checks do not establish runtime compatibility or release approval.

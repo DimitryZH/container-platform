@@ -1,0 +1,130 @@
+{
+  "inventoryProfile": "sre-dev-online-shop-v1",
+  "platform": "linux/amd64",
+  "profile": "aml-online-shop-compose-v1",
+  "services": {
+    "adservice": {
+      "environment": {
+        "PORT": "9555"
+      },
+      "expose": [
+        "9555"
+      ]
+    },
+    "cartservice": {
+      "environment": {
+        "REDIS_ADDR": "redis-cart:6379"
+      },
+      "expose": [
+        "7070"
+      ]
+    },
+    "checkoutservice": {
+      "environment": {
+        "CART_SERVICE_ADDR": "cartservice:7070",
+        "CURRENCY_SERVICE_ADDR": "currencyservice:7000",
+        "EMAIL_SERVICE_ADDR": "emailservice:8080",
+        "PAYMENT_SERVICE_ADDR": "paymentservice:50051",
+        "PORT": "5050",
+        "PRODUCT_CATALOG_SERVICE_ADDR": "productcatalogservice:3550",
+        "SHIPPING_SERVICE_ADDR": "shippingservice:50051"
+      },
+      "expose": [
+        "5050"
+      ]
+    },
+    "currencyservice": {
+      "environment": {
+        "DISABLE_PROFILER": "1",
+        "PORT": "7000"
+      },
+      "expose": [
+        "7000"
+      ]
+    },
+    "emailservice": {
+      "environment": {
+        "DISABLE_PROFILER": "1",
+        "PORT": "8080"
+      },
+      "expose": [
+        "8080"
+      ]
+    },
+    "frontend": {
+      "environment": {
+        "AD_SERVICE_ADDR": "adservice:9555",
+        "CART_SERVICE_ADDR": "cartservice:7070",
+        "CHECKOUT_SERVICE_ADDR": "checkoutservice:5050",
+        "CURRENCY_SERVICE_ADDR": "currencyservice:7000",
+        "ENABLE_ASSISTANT": "false",
+        "ENABLE_PROFILER": "0",
+        "ENV_PLATFORM": "local",
+        "PORT": "8080",
+        "PRODUCT_CATALOG_SERVICE_ADDR": "productcatalogservice:3550",
+        "RECOMMENDATION_SERVICE_ADDR": "recommendationservice:8080",
+        "SHIPPING_SERVICE_ADDR": "shippingservice:50051",
+        "SHOPPING_ASSISTANT_SERVICE_ADDR": "127.0.0.1:1"
+      },
+      "expose": [
+        "8080"
+      ]
+    },
+    "loadgenerator": {
+      "environment": {
+        "FRONTEND_ADDR": "frontend:8080",
+        "RATE": "1",
+        "USERS": "10"
+      }
+    },
+    "paymentservice": {
+      "environment": {
+        "DISABLE_PROFILER": "1",
+        "PORT": "50051"
+      },
+      "expose": [
+        "50051"
+      ]
+    },
+    "productcatalogservice": {
+      "environment": {
+        "DISABLE_PROFILER": "1",
+        "PORT": "3550"
+      },
+      "expose": [
+        "3550"
+      ]
+    },
+    "recommendationservice": {
+      "environment": {
+        "DISABLE_PROFILER": "1",
+        "PORT": "8080",
+        "PRODUCT_CATALOG_SERVICE_ADDR": "productcatalogservice:3550"
+      },
+      "expose": [
+        "8080"
+      ]
+    },
+    "redis-cart": {
+      "environment": {},
+      "expose": [
+        "6379"
+      ]
+    },
+    "shippingservice": {
+      "environment": {
+        "DISABLE_PROFILER": "1",
+        "PORT": "50051"
+      },
+      "expose": [
+        "50051"
+      ]
+    }
+  },
+  "sources": [
+    "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/README.md",
+    "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/kubernetes/online-shop.yaml",
+    "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/images.lock.json",
+    "https://github.com/DimitryZH/application-modernization-lab/blob/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/UPSTREAM.md"
+  ]
+}

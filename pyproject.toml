@@ -11,9 +11,10 @@ dependencies = ["jsonschema>=4.23,<5", "referencing>=0.35,<1"]
 
 [project.scripts]
 container-release = "container_platform.cli:main"
+container-compose = "container_platform.compose:main"
 
 [tool.setuptools]
-packages = ["container_platform", "container_platform.schemas"]
+packages = ["container_platform", "container_platform.schemas", "container_platform.profiles"]
 
 [tool.setuptools.package-dir]
 container_platform = "src/container_platform"
@@ -21,3 +22,4 @@ container_platform = "src/container_platform"
 
 [tool.setuptools.package-data]
 "container_platform.schemas" = ["release-v1.schema.json"]
+"container_platform.profiles" = ["*.json"]

@@ -1,3 +1,5 @@
+# Legacy local-build scaffold; not the supported Online Shop Compose profile.
+# Canonical workflow: generate Compose JSON as documented in docs/compose-rendering.md.
 version: "3.8"
 
 services:
