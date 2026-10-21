@@ -37,7 +37,7 @@ Work stops before the overall deadline to reserve diagnostics and cleanup time. 
 
 Readiness requires exactly 12 expected service records, the exact image references, every service running and a frontend catalog response. This establishes process state plus frontend availability, not independent health evidence for every backend. Host-side semantic assertions then exercise catalog browsing, a selected product, empty/add/remove/re-add cart operations and synthetic checkout. A final service-state check detects an exit during the sequence. Loadgenerator traffic is independent and cannot satisfy these assertions.
 
-Routes/forms and assertions derive from immutable AML revision [`9960484b5c7f1568688fa6fc8eb256976d6c18a4`](https://github.com/DimitryZH/application-modernization-lab/tree/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/src): frontend routes/handlers, product/cart/order templates and loadgenerator. Payment service performs a pretend charge; email starts in dummy mode in this profile. The runner uses a standard test card number, reserved `.invalid` email and synthetic address, without payment/mail credentials. It checks selected product ID, cart quantity, order confirmation/tracking and post-checkout cart clearance. It does not fetch browser assets, execute scripts or follow redirects outside `http://127.0.0.1:8080`. This is a narrow demo flow, not verification of real payment/email systems or image provenance.
+Routes/forms and assertions derive from immutable AML revision [`9960484b5c7f1568688fa6fc8eb256976d6c18a4`](https://github.com/DimitryZH/application-modernization-lab/tree/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/src): frontend routes/handlers, product/cart/order templates and loadgenerator. Pinned AML source implements a pretend charge and dummy email default; legacy image runtime behavior remains unverified until live checks pass. The runner uses a standard test card number, reserved `.invalid` email and synthetic address, without payment/mail credentials. It checks selected product ID, cart quantity, order confirmation/tracking and post-checkout cart clearance. It does not fetch browser assets, execute scripts or follow redirects outside `http://127.0.0.1:8080`. This is a narrow demo flow, not verification of real payment/email systems or image provenance.
 
 ## Report and exit codes
 
@@ -70,3 +70,13 @@ docker volume ls -q --filter $smokeLabel | ForEach-Object { docker volume rm $_ 
 ## Validation evidence
 
 Automated tests use mock Docker/HTTP adapters and isolated local Git fixtures; the ordinary suite requires no Docker or registry requests. Installed-wheel checks exercise both smoke interfaces outside checkout without runtime opt-in. No mandatory runtime PR job is added. Live results are recorded separately below; runtime integration cannot be claimed from mocks or static configuration alone.
+
+### Live observation: 2026-10-21
+
+- Implementation: `f5ea3b8e2b2f48e014cd985c3a20412bbdce0956`, installed-wheel code/profile/schema matched before execution.
+- Input: `releases/baseline-2026-10-18.json`, byte SHA-256 `005293954afebcf1581116b2e7e6bc5ec6313a658496c88df3186aa84a46a99f`; profile `aml-online-shop-compose-v1`, explicit inspection-only.
+- Render passed; prerequisites failed with `docker_engine_unavailable`. Runtime outcome: `execution_error`, exit 2. Pull/startup and HTTP smoke were not attempted.
+- Cleanup: `not_required`; no project resources were created.
+- Offline validation remained exit 1 with 12 `legacy_ineligible` failures. No approval or eligibility was granted.
+
+One bounded live attempt was made. Provide a running local Linux/amd64 Docker Engine and repeat the documented baseline command to verify readiness, semantic checkout and cleanup after actual startup. Those live behaviors remain unverified; mock tests do not replace them.

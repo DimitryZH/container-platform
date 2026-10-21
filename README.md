@@ -39,7 +39,7 @@ The two paths into the SRE Platform have different roles:
 - Docker Hub is the data path: Kubernetes nodes pull the approved images from `dmitryzhuravlev/online-shop-*`.
 - Container Platform is the release-control path: it identifies the exact image digests that are approved together as one Online Shop release.
 
-The diagram describes target relationships. Offline, opt-in Docker Hub metadata, PR checks and Compose rendering are implemented; required-check configuration remains an owner action. Runtime integration and SRE handoff remain planned.
+The diagram describes target relationships. Offline, opt-in Docker Hub metadata, PR checks and Compose rendering are implemented; required-check configuration remains an owner action. Runtime evidence is reported separately; SRE handoff remains planned.
 
 ## Responsibilities
 
