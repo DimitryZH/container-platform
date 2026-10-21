@@ -4,7 +4,7 @@ Container Platform defines the contract for an **Online Shop** release composed 
 
 The project does not build application code or operate a Kubernetes cluster. Its target workflow turns images published to Docker Hub into a versioned release bundle pinned by digests for review, validation and promotion to the SRE Platform.
 
-> **Status:** Release contract v1 is defined; a digest-pinned baseline candidate and profile inventory are available for review. Offline and opt-in registry metadata checks, PR checks and offline Compose rendering are available; required-check rules are owner-configured. Runtime integration and SRE handoff remain planned.
+> **Status:** Release contract v1 is defined; a digest-pinned baseline candidate and profile inventory are available for review. Offline and opt-in registry metadata checks, PR checks, Compose rendering and an opt-in runtime runner are available; required-check rules are owner-configured. Runtime evidence remains subject to recorded live results; SRE handoff remains planned.
 
 ## Why this platform exists
 
@@ -120,3 +120,7 @@ Add `--registry` to inspect immutable manifest/config bytes and declared platfor
 ## Compose configuration
 
 [Offline Compose rendering](docs/compose-rendering.md) generates all 12 digest-pinned services from a candidate and the packaged AML profile. Legacy baseline rendering requires explicit `--inspection-only`; its validation remains negative. Static `docker compose config` checks do not establish runtime compatibility or release approval.
+
+## Optional runtime smoke
+
+[Bounded runtime smoke](docs/runtime-smoke.md) requires explicit `--execute`, consumes the rendered candidate snapshot and cleans up its unique Compose project. It checks service process state and a synthetic catalog/cart/checkout flow. Inspection-only baseline execution preserves legacy ineligibility. See the recorded live outcome and limitations; runtime success is separate from release approval and deployment authorization.

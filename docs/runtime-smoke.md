@@ -1,0 +1,72 @@
+# Opt-in Online Shop runtime smoke
+
+`container-smoke` / `python -m container_platform.smoke` runs one temporary Compose project. This is integration evidence for a selected image set, not a long-lived environment or SRE deployment. The existing validator and renderer never start Docker.
+
+## Prerequisites and execution
+
+Install the package with Python 3.11+ and Git. Supply local inventory Git objects, a local Docker Engine with native Linux/amd64 runtime, and Docker Compose v2 supporting JSON config/ps and pull policy options. Only local Unix socket/named pipe transports are supported; SSH/TCP remote contexts are rejected before mutations. The runner does not install, start or reconfigure system tools. Loopback port 8080 must be free; a conflict never stops another project. A race after the port check is reported as startup failure.
+
+```text
+python -m container_platform.smoke candidate.json --repository . --profile aml-online-shop-compose-v1 --execute
+container-smoke releases/baseline-2026-10-18.json --repository . --profile aml-online-shop-compose-v1 --execute --inspection-only
+```
+
+Without `--execute`, no candidate read or Docker call occurs (exit 2). Ordinary execution requires successful offline validation. Inspection-only permits exclusively the renderer's existing legacy traceability failures; all other prerequisites must pass. It preserves the full negative offline result and grants no eligibility exception. Baseline eligibility remains negative even if runtime succeeds.
+
+The input is capped at 1 MiB and read once into a private snapshot. The existing renderer validates that snapshot and generates the only accepted Compose file. Report SHA-256 identifies its exact bytes. No external Compose file is accepted. All 12 required services use candidate `repository@sha256:...` references and `linux/amd64`. Pull downloads these images; up prohibits builds and further pulls. Images remain cached after the test.
+
+Each execution generates a unique `cp-smoke-<random hex>` project and checks its resource labels before creating resources. Commands use an explicit Compose file, project directory, empty env file and project name. Inherited `COMPOSE_*` selectors and `DOCKER_DEFAULT_PLATFORM` are removed. Docker client context/transport configuration remains the operator's responsibility; no credentials or environment are emitted in reports. Frontend-only loopback exposure, ephemeral Redis storage and the AML-derived [profile](compose-rendering.md) are preserved. No foreign networks, named volumes, host binds, Docker socket, privileged containers or auxiliary images are requested.
+
+## Budgets and checks
+
+All retries share monotonic deadlines; they never restart a stage budget.
+
+| Operation | Limit |
+|---|---:|
+| Overall coordination | 1,200 seconds |
+| Prerequisites | 30 seconds |
+| Pull | 600 seconds |
+| Startup | 120 seconds |
+| Readiness | 180 seconds |
+| Entire semantic smoke sequence | 60 seconds |
+| Each HTTP request, including redirects/body | 10 seconds |
+| Diagnostics | 20 seconds |
+| Cleanup, including resource verification | 120 seconds |
+
+Work stops before the overall deadline to reserve diagnostics and cleanup time. Child process termination/reaping can add at most ten seconds per timed-out process; one HTTP socket read can add up to one second. These are bounded termination grace, not retry budgets. Process output is capped at 1 MiB per command; HTTP responses at 2 MiB. Raw process output, response bodies and cookies are not included in the report. Diagnostics collect only sanitized service states; no application logs or payment/session payloads are published.
+
+Readiness requires exactly 12 expected service records, the exact image references, every service running and a frontend catalog response. This establishes process state plus frontend availability, not independent health evidence for every backend. Host-side semantic assertions then exercise catalog browsing, a selected product, empty/add/remove/re-add cart operations and synthetic checkout. A final service-state check detects an exit during the sequence. Loadgenerator traffic is independent and cannot satisfy these assertions.
+
+Routes/forms and assertions derive from immutable AML revision [`9960484b5c7f1568688fa6fc8eb256976d6c18a4`](https://github.com/DimitryZH/application-modernization-lab/tree/9960484b5c7f1568688fa6fc8eb256976d6c18a4/workloads/online-shop/src): frontend routes/handlers, product/cart/order templates and loadgenerator. Payment service performs a pretend charge; email starts in dummy mode in this profile. The runner uses a standard test card number, reserved `.invalid` email and synthetic address, without payment/mail credentials. It checks selected product ID, cart quantity, order confirmation/tracking and post-checkout cart clearance. It does not fetch browser assets, execute scripts or follow redirects outside `http://127.0.0.1:8080`. This is a narrow demo flow, not verification of real payment/email systems or image provenance.
+
+## Report and exit codes
+
+Stdout contains a separate versioned JSON report: release ID and exact candidate-byte SHA-256, inventory reference, Compose profile, exact image set, inspection mode, original offline validation, check/reason codes, sanitized service states, smoke assertions, runtime outcome, cleanup outcome and overall exit code. Input or resource failures may leave unavailable identity fields null. No output paths, environment dump or raw Docker errors are included.
+
+| Exit | Meaning for this command |
+|---|---|
+| 0 | Runtime flow and verified cleanup succeeded |
+| 1 | Release validation or application/semantic failure |
+| 2 | Missing opt-in, prerequisite/execution error, or cleanup failure after runtime success |
+| 3 | Deadline/request timeout |
+| 130 | Handled interruption |
+
+These codes do not change validator/render codes. A report can have runtime success and exit 2 when cleanup fails. A cleanup failure never overwrites the original runtime failure; inspect both fields. No outcome grants release approval or deployment authorization.
+
+## Cleanup and interruptions
+
+After an attempted startup, a finally block runs project-scoped `down --volumes --remove-orphans --timeout 10` and checks containers, networks and volumes by the unique project label. No global prune or image deletion is performed. Before startup, cleanup is `not_required`: only read operations and possibly an image pull have occurred. Failed cleanup is explicit and cannot produce overall success. Ctrl+C and SIGTERM are handled; a second interruption can prevent completion and is reported where possible.
+
+Power loss, forced process termination or an unavailable Engine can prevent cleanup. Each report includes `project` and an exact `manualCleanupPowerShell` command using only that project's label, independent of temporary files. Preserve the project identifier if terminating externally. If no final report was emitted, locate only labels starting with `cp-smoke-`, identify the interrupted run, and substitute its exact identifier below; never substitute another project or omit the filter:
+
+```powershell
+$smokeProject = 'cp-smoke-<exact-run-hex>'
+$smokeLabel = "label=com.docker.compose.project=$smokeProject"
+docker ps -aq --filter $smokeLabel | ForEach-Object { docker rm -f -v $_ }
+docker network ls -q --filter $smokeLabel | ForEach-Object { docker network rm $_ }
+docker volume ls -q --filter $smokeLabel | ForEach-Object { docker volume rm $_ }
+```
+
+## Validation evidence
+
+Automated tests use mock Docker/HTTP adapters and isolated local Git fixtures; the ordinary suite requires no Docker or registry requests. Installed-wheel checks exercise both smoke interfaces outside checkout without runtime opt-in. No mandatory runtime PR job is added. Live results are recorded separately below; runtime integration cannot be claimed from mocks or static configuration alone.

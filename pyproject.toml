@@ -12,6 +12,7 @@ dependencies = ["jsonschema>=4.23,<5", "referencing>=0.35,<1"]
 [project.scripts]
 container-release = "container_platform.cli:main"
 container-compose = "container_platform.compose:main"
+container-smoke = "container_platform.smoke:main"
 
 [tool.setuptools]
 packages = ["container_platform", "container_platform.schemas", "container_platform.profiles"]
