@@ -80,3 +80,13 @@ Automated tests use mock Docker/HTTP adapters and isolated local Git fixtures; t
 - Offline validation remained exit 1 with 12 `legacy_ineligible` failures. No approval or eligibility was granted.
 
 One bounded live attempt was made. Provide a running local Linux/amd64 Docker Engine and repeat the documented baseline command to verify readiness, semantic checkout and cleanup after actual startup. Those live behaviors remain unverified; mock tests do not replace them.
+
+### Live observation: 2026-10-21 — successful follow-up
+
+- Implementation: `9f28d77df64106ddefa52c2934c132d9cb022bb0`; installed code, profile and schema matched the commit before execution.
+- Input: `baseline-2026-10-18-001`, `releases/baseline-2026-10-18.json`, byte SHA-256 `005293954afebcf1581116b2e7e6bc5ec6313a658496c88df3186aa84a46a99f`; inventory `inventories/online-shop-sre-dev-v1.json` at `480bd0a5769ae61313c4bd0da846ba3a6fc0ce51`; profile `aml-online-shop-compose-v1`, inspection-only.
+- One bounded run passed in 45.8 seconds: prerequisites, pull, startup, all 12 services running with exact candidate digest references, readiness and semantic catalog/product/cart/synthetic-checkout assertions. Runtime exit 0.
+- Cleanup passed; an independent label-scoped query confirmed zero remaining project containers, networks and volumes. Cached images were retained.
+- Offline validation remained exit 1 with 12 `legacy_ineligible` failures. The earlier negative observation is retained above.
+
+This confirms the selected demo flow for these exact inputs in one run. It does not establish production readiness, performance, full backend coverage, provenance, release approval or deployment authorization. No mandatory runtime CI job was added.
