@@ -65,6 +65,12 @@ def check(repository, wheel_directory):
             artifacts.append(destination.read_bytes())
         if artifacts[0] != artifacts[1]:
             raise RuntimeError("Installed rendering interfaces differ.")
+        smoke_console = str(binaries / ("container-smoke.exe" if os.name == "nt" else "container-smoke"))
+        for command in ([python, "-m", "container_platform.smoke"], [smoke_console]):
+            report = json.loads(run([*command, str(repo / "releases/baseline-2026-10-18.json"),
+                                     "--repository", str(repo), "--profile", profile], outside, env, expected=2))
+            if report["diagnostics"] != ["runtime_opt_in_required"] or report["runtimeOutcome"] != "not_started":
+                raise RuntimeError("Installed smoke interface must require explicit runtime opt-in.")
 
 
 def main():

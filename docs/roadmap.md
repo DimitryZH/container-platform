@@ -87,7 +87,7 @@ Invalid, incomplete, mutable, or unavailable releases cannot be presented as val
 
 **Goal:** Make release validation repeatable and prove that the published images compose into an application.
 
-[Pull request checks](pull-request-validation.md) provide tests/package and new-candidate validation. [Offline Compose rendering](compose-rendering.md) provides deterministic configuration from digest-pinned candidates. Required-check settings are owner-configured; runtime integration remains unimplemented, so this milestone is not complete.
+[Pull request checks](pull-request-validation.md) provide tests/package and new-candidate validation. [Offline Compose rendering](compose-rendering.md) provides deterministic configuration from digest-pinned candidates. An [opt-in bounded runtime runner](runtime-smoke.md) is available; its live result and limitations are recorded separately. Required-check settings are owner-configured; runner availability does not complete this milestone or prove baseline runtime compatibility.
 
 ### Scope
 

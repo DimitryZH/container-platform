@@ -36,7 +36,7 @@ Compose bytes go only to `--output`; diagnostics/report go to stdout. Invalid in
 
 Offline tests cover deterministic bytes, exact mapping and candidate digests, service addresses, loopback exposure, safe model fields, invalid inputs, inspection restrictions and output protection. Package checks exercise both rendering interfaces and profile/schema resources from a clean installed wheel outside checkout.
 
-The actual baseline static Compose check result is recorded below. No image pull, container execution, build or publication is part of these checks. Registry availability remains a separate opt-in validator operation; runtime smoke tests, resource sizing, shutdown/cleanup, application compatibility and deployment authorization remain future work.
+The actual baseline static Compose check result is recorded below. No image pull, container execution, build or publication is part of these checks. Registry availability remains a separate opt-in validator operation. The [separate runtime runner](runtime-smoke.md) requires explicit execution opt-in and records its own result; static evidence does not establish application compatibility or deployment authorization.
 
 ### Static observation: 2026-10-20
 
