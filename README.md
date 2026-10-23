@@ -124,3 +124,5 @@ Add `--registry` to inspect immutable manifest/config bytes and declared platfor
 ## Optional runtime smoke
 
 [Bounded runtime smoke](docs/runtime-smoke.md) requires explicit `--execute`, consumes the rendered candidate snapshot and cleans up its unique Compose project. It checks service process state and a synthetic catalog/cart/checkout flow. Inspection-only baseline execution preserves legacy ineligibility. See the recorded live outcome and limitations; runtime success is separate from release approval and deployment authorization.
+
+[Manual hosted smoke](docs/manual-smoke-workflow.md) adds a dispatch-only workflow with sanitized evidence and best-effort scoped recovery. Its first hosted baseline run remains pending default-branch workflow registration and owner dispatch; it is not a mandatory PR check.

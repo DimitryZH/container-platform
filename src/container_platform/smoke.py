@@ -163,7 +163,8 @@ def smoke_flow(session, deadline, results):
 
 
 def run(candidate_path, repository, profile, *, execute=False, inspection_only=False,
-        docker_factory=Docker, session_factory=Session, clock=time.monotonic, sleep=time.sleep):
+        docker_factory=Docker, session_factory=Session, clock=time.monotonic, sleep=time.sleep,
+        project_ready=None):
     start = clock()
     total_deadline = start + LIMITS["total"]
     work_deadline = total_deadline - LIMITS["cleanup"] - LIMITS["diagnostics"]
@@ -225,6 +226,10 @@ def run(candidate_path, repository, profile, *, execute=False, inspection_only=F
             (directory / "empty.env").write_bytes(b"")
             docker = docker_factory(project, directory, clock)
             stage("prerequisites", lambda deadline: prerequisites(docker, images, deadline))
+            if project_ready is not None:
+                # Persist exact cleanup identity only after confirming no name collision,
+                # and before any image pull or startup can be interrupted.
+                project_ready(project, directory)
             stage("pull", lambda deadline: checked(docker.compose(["pull", "--policy", "always"], deadline), "image_pull_failed"))
             mutated = True  # A failed/interrupted up can already have created resources.
             stage("startup", lambda deadline: checked(docker.compose(["up", "--detach", "--no-build", "--pull", "never"], deadline), "compose_startup_failed"))
