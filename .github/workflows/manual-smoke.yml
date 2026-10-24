@@ -1,0 +1,61 @@
+name: Manual Compose smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate:
+        description: Tracked repository-relative release candidate JSON
+        required: true
+        type: string
+      profile:
+        description: Supported Compose profile
+        required: true
+        type: choice
+        options:
+          - aml-online-shop-compose-v1
+      inspection_only:
+        description: Explicitly inspect legacy-ineligible candidates
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Manual Compose runtime smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      SMOKE_CANDIDATE: ${{ inputs.candidate }}
+      SMOKE_PROFILE: ${{ inputs.profile }}
+      SMOKE_INSPECTION_ONLY: ${{ toJSON(inputs.inspection_only) }}
+      SMOKE_COMMIT: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+      - name: Build and install selected commit
+        run: |
+          python -m pip install build
+          python -m build --wheel
+          python -m pip install dist/*.whl
+      - name: Execute bounded smoke
+        run: python scripts/manual_smoke.py execute
+      - name: Finalize evidence and best-effort project cleanup
+        if: ${{ always() }}
+        run: python scripts/manual_smoke.py finalize
+      - name: Upload sanitized evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: compose-smoke-evidence
+          path: ${{ runner.temp }}/container-platform-smoke-evidence/report.json
+          retention-days: 7
+          if-no-files-found: error

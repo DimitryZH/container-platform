@@ -160,6 +160,18 @@ class SmokeTests(unittest.TestCase):
         self.assertEqual(result["cleanup"]["outcome"], "not_required")
         self.assertFalse(any(c[0] == "up" for c in self.docker.calls))
 
+    def test_project_identity_hook_precedes_mutations_and_failure_blocks_startup(self):
+        calls = []
+        def ready(project, directory):
+            calls.append(project)
+            self.assertTrue((directory / "compose.json").is_file())
+            self.assertFalse(any(c[0] in ("pull", "up") for c in self.docker.calls))
+            raise OSError("Cannot persist project identity")
+        result = self.run_smoke(project_ready=ready)
+        self.assertEqual(result["exitCode"], 2)
+        self.assertEqual(len(calls), 1)
+        self.assertFalse(any(c[0] in ("pull", "up", "down") for c in self.docker.calls))
+
     def test_readiness_retries_share_one_deadline(self):
         self.configure = lambda d: setattr(d, "states", "created")
         result = self.run_smoke()
