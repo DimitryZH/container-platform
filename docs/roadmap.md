@@ -65,7 +65,7 @@ Baseline artifacts proposed for review: [discovery and limitations](baseline.md)
 
 **Goal:** Turn the release contract into deterministic policy checks.
 
-The [offline CLI](offline-validation.md) implements strict JSON/schema checks, immutable local inventory evaluation and traceability eligibility with automated tests. [Opt-in Docker Hub metadata verification](registry-verification.md) adds bounded manifest/config integrity and platform checks. Milestone closure remains a separate owner decision; PR gates and integration validation remain future work.
+The [offline CLI](offline-validation.md) implements strict JSON/schema checks, immutable local inventory evaluation and traceability eligibility with automated tests. [Opt-in Docker Hub metadata verification](registry-verification.md) adds bounded manifest/config integrity and platform checks. PR workflows and bounded integration evidence are now available; milestone closure remains a separate owner decision.
 
 ### Scope
 
@@ -87,9 +87,9 @@ Invalid, incomplete, mutable, or unavailable releases cannot be presented as val
 
 **Goal:** Make release validation repeatable and prove that the published images compose into an application.
 
-[Pull request checks](pull-request-validation.md) provide tests/package and new-candidate validation. [Offline Compose rendering](compose-rendering.md) provides deterministic configuration from digest-pinned candidates. An [opt-in bounded runtime runner](runtime-smoke.md) is available; its live result and limitations are recorded separately. Required-check settings are owner-configured; runner availability does not complete this milestone or prove baseline runtime compatibility.
+[Pull request checks](pull-request-validation.md) provide tests/package and new-candidate validation. [Offline Compose rendering](compose-rendering.md) provides deterministic configuration from digest-pinned candidates. The [opt-in bounded runtime runner](runtime-smoke.md) has local and hosted evidence for a selected demo flow. [Main protection](main-protection.md) remains an owner configuration/enforcement verification task; workflow availability and green CI do not establish protected merges.
 
-A [manual hosted workflow](manual-smoke-workflow.md) is prepared; hosted baseline acceptance remains pending workflow registration on the default branch and an actual owner dispatch. It adds no mandatory runtime PR check and does not close this milestone.
+The [manual hosted workflow](manual-smoke-workflow.md) is registered; [run 40046455406](https://github.com/DimitryZH/container-platform/actions/runs/40046455406) passed all 12 exact-image services, readiness, five semantic assertions and verified cleanup. Inspection-only retained validation exit 1 and 12 legacy failures. Live cancellation recovery remains unverified. Runtime smoke is optional, and this evidence does not close the milestone or grant release approval.
 
 ### Scope
 
