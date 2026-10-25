@@ -4,7 +4,7 @@ Container Platform defines the contract for an **Online Shop** release composed 
 
 The project does not build application code or operate a Kubernetes cluster. Its target workflow turns images published to Docker Hub into a versioned release bundle pinned by digests for review, validation and promotion to the SRE Platform.
 
-> **Status:** Release contract v1, baseline/inventory records, offline/registry checks, PR checks and Compose rendering/runtime smoke are implemented. One hosted baseline smoke run passed; legacy eligibility remains negative. Main protection is not yet confirmed as enforced; owner setup and verification are documented. SRE handoff remains planned.
+> **Status:** Release contract v1, baseline/inventory records, offline/registry checks, PR checks and Compose rendering/runtime smoke are implemented. One hosted baseline smoke run passed; legacy eligibility remains negative. The active main-protection ruleset and owner-confirmed Required check labels are recorded; pending-check blocking remains unverified. SRE handoff remains planned.
 
 ## Why this platform exists
 
@@ -39,7 +39,7 @@ The two paths into the SRE Platform have different roles:
 - Docker Hub is the data path: Kubernetes nodes pull the approved images from `dmitryzhuravlev/online-shop-*`.
 - Container Platform is the release-control path: it identifies the exact image digests that are approved together as one Online Shop release.
 
-The diagram describes target relationships. Offline, opt-in Docker Hub metadata, PR checks and Compose rendering are implemented; required-check configuration remains an owner action. Runtime evidence is reported separately; SRE handoff remains planned.
+The diagram describes target relationships. Offline, opt-in Docker Hub metadata, PR checks and Compose rendering are implemented; the active main-protection ruleset requires the three PR checks. Runtime evidence is reported separately; SRE handoff remains planned.
 
 ## Responsibilities
 
@@ -55,7 +55,7 @@ The diagram describes target relationships. Offline, opt-in Docker Hub metadata,
 1. CI Build Platform builds and publishes individual Online Shop images to Docker Hub.
 2. A full release manifest records immutable digests and per-component source/build references under the contract, with explicit legacy gaps and separate third-party dependency rules.
 3. Container Platform validates the manifest and the published image references through pull-request checks.
-4. A release PR may represent approval only after authorized review and all documented mandatory checks pass; merge alone is not validation. Checks are implemented; enforced main protection and release authorization remain separate decisions.
+4. A release PR may represent approval only after authorized review and all documented mandatory checks pass; merge alone is not validation. Checks and main protection are configured; release authorization remains a separate decision.
 5. A promotion change updates the SRE Platform's GitOps configuration to the exact digests from that release.
 6. Argo CD applies the GitOps change, and GKE pulls the same images from Docker Hub.
 

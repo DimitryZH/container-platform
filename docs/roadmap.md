@@ -33,7 +33,7 @@ The platform must remain focused on image-release composition and validation. It
 - define the promotion and rollback semantics at a repository level;
 - define MVP non-goals and trust boundaries.
 
-Artifacts: [architecture](architecture.md), [canonical contract](release-contract.md), [v1 schema](../schemas/release-v1.schema.json), and [non-deployable example](../examples/release-v1.example.json). Offline validation and opt-in registry metadata verification are implemented; PR validation workflows are available; owner-required checks and integrations remain separate work.
+Artifacts: [architecture](architecture.md), [canonical contract](release-contract.md), [v1 schema](../schemas/release-v1.schema.json), and [non-deployable example](../examples/release-v1.example.json). Offline validation and opt-in registry metadata verification are implemented; PR checks and main protection are configured; bounded integration evidence is recorded separately, while release approval and SRE handoff remain separate decisions.
 
 ### Target outcome
 
@@ -87,7 +87,7 @@ Invalid, incomplete, mutable, or unavailable releases cannot be presented as val
 
 **Goal:** Make release validation repeatable and prove that the published images compose into an application.
 
-[Pull request checks](pull-request-validation.md) provide tests/package and new-candidate validation. [Offline Compose rendering](compose-rendering.md) provides deterministic configuration from digest-pinned candidates. The [opt-in bounded runtime runner](runtime-smoke.md) has local and hosted evidence for a selected demo flow. [Main protection](main-protection.md) remains an owner configuration/enforcement verification task; workflow availability and green CI do not establish protected merges.
+[Pull request checks](pull-request-validation.md) provide tests/package and new-candidate validation. [Offline Compose rendering](compose-rendering.md) provides deterministic configuration from digest-pinned candidates. The [opt-in bounded runtime runner](runtime-smoke.md) has local and hosted evidence for a selected demo flow. [Main protection](main-protection.md) is confirmed active with the three required checks and owner-confirmed Required labels on PR #18. Pending-check blocking remains unobserved; neither green CI nor Draft blocking proves that behavior.
 
 The [manual hosted workflow](manual-smoke-workflow.md) is registered; [run 40046455406](https://github.com/DimitryZH/container-platform/actions/runs/40046455406) passed all 12 exact-image services, readiness, five semantic assertions and verified cleanup. Inspection-only retained validation exit 1 and 12 legacy failures. Live cancellation recovery remains unverified. Runtime smoke is optional, and this evidence does not close the milestone or grant release approval.
 
