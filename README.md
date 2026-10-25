@@ -4,7 +4,7 @@ Container Platform defines the contract for an **Online Shop** release composed 
 
 The project does not build application code or operate a Kubernetes cluster. Its target workflow turns images published to Docker Hub into a versioned release bundle pinned by digests for review, validation and promotion to the SRE Platform.
 
-> **Status:** Release contract v1 is defined; a digest-pinned baseline candidate and profile inventory are available for review. Offline and opt-in registry metadata checks, PR checks, Compose rendering and an opt-in runtime runner are available; required-check rules are owner-configured. Runtime evidence remains subject to recorded live results; SRE handoff remains planned.
+> **Status:** Release contract v1, baseline/inventory records, offline/registry checks, PR checks and Compose rendering/runtime smoke are implemented. One hosted baseline smoke run passed; legacy eligibility remains negative. The active main-protection ruleset and owner-confirmed Required check labels are recorded; pending-check blocking remains unverified. SRE handoff remains planned.
 
 ## Why this platform exists
 
@@ -39,7 +39,7 @@ The two paths into the SRE Platform have different roles:
 - Docker Hub is the data path: Kubernetes nodes pull the approved images from `dmitryzhuravlev/online-shop-*`.
 - Container Platform is the release-control path: it identifies the exact image digests that are approved together as one Online Shop release.
 
-The diagram describes target relationships. Offline, opt-in Docker Hub metadata, PR checks and Compose rendering are implemented; required-check configuration remains an owner action. Runtime evidence is reported separately; SRE handoff remains planned.
+The diagram describes target relationships. Offline, opt-in Docker Hub metadata, PR checks and Compose rendering are implemented; the active main-protection ruleset requires the three PR checks. Runtime evidence is reported separately; SRE handoff remains planned.
 
 ## Responsibilities
 
@@ -55,7 +55,7 @@ The diagram describes target relationships. Offline, opt-in Docker Hub metadata,
 1. CI Build Platform builds and publishes individual Online Shop images to Docker Hub.
 2. A full release manifest records immutable digests and per-component source/build references under the contract, with explicit legacy gaps and separate third-party dependency rules.
 3. Container Platform validates the manifest and the published image references through pull-request checks.
-4. A release PR may represent approval only after authorized review and all documented mandatory checks pass; merge alone is not validation. These gates are not implemented yet.
+4. A release PR may represent approval only after authorized review and all documented mandatory checks pass; merge alone is not validation. Checks and main protection are configured; release authorization remains a separate decision.
 5. A promotion change updates the SRE Platform's GitOps configuration to the exact digests from that release.
 6. Argo CD applies the GitOps change, and GKE pulls the same images from Docker Hub.
 
@@ -115,7 +115,7 @@ Add `--registry` to inspect immutable manifest/config bytes and declared platfor
 
 ## Pull request checks
 
-[GitHub Actions validation](docs/pull-request-validation.md) runs tests/package checks on Python 3.11 and 3.13 and a stable release check. New candidates receive opt-in registry validation; merged release files are immutable. No candidate changes produces an explicit successful result. The historical legacy baseline remains a negative regression fixture. Workflow availability does not configure required merge checks or grant release approval.
+[GitHub Actions validation](docs/pull-request-validation.md) runs tests/package checks on Python 3.11 and 3.13 and a stable release check. New candidates receive opt-in registry validation; merged release files are immutable. No candidate changes produces an explicit successful result. The historical legacy baseline remains a negative regression fixture. [Main protection](docs/main-protection.md) records read-only observations, owner settings and the PR enforcement checklist; green CI alone does not prove protected merges or grant release approval.
 
 ## Compose configuration
 
@@ -125,4 +125,4 @@ Add `--registry` to inspect immutable manifest/config bytes and declared platfor
 
 [Bounded runtime smoke](docs/runtime-smoke.md) requires explicit `--execute`, consumes the rendered candidate snapshot and cleans up its unique Compose project. It checks service process state and a synthetic catalog/cart/checkout flow. Inspection-only baseline execution preserves legacy ineligibility. See the recorded live outcome and limitations; runtime success is separate from release approval and deployment authorization.
 
-[Manual hosted smoke](docs/manual-smoke-workflow.md) adds a dispatch-only workflow with sanitized evidence and best-effort scoped recovery. Its first hosted baseline run remains pending default-branch workflow registration and owner dispatch; it is not a mandatory PR check.
+[Manual hosted smoke](docs/manual-smoke-workflow.md) is registered and has a [successful baseline dispatch](https://github.com/DimitryZH/container-platform/actions/runs/40046455406): 12 exact-image services, readiness, five semantic assertions and verified cleanup. Inspection-only preserved validation exit 1 and 12 legacy failures. Runtime smoke is not a mandatory PR check or release approval; live cancellation recovery remains unverified.

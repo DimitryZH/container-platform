@@ -24,26 +24,37 @@ The runner retains its normal interruption cleanup. A minimal pre-mutation hook 
 
 Best-effort recovery and upload cannot be guaranteed after forced cancellation, repeated interruption, job timeout, Engine failure or runner loss. Cancellation recovery has offline adapter coverage but has not been verified by a live cancellation experiment. Ephemeral-host disposal is separate from verified application cleanup. A successful ordinary run must contain successful runner cleanup plus verified workflow resource absence.
 
-## Hosted acceptance: pending registration
+## Hosted acceptance
 
-As of 2026-10-23, this workflow is absent from the default branch's registered workflows. GitHub [requires the dispatch workflow to exist on the default branch](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_dispatch). No hosted runtime dispatch has been performed; prior local runtime evidence does not satisfy this criterion. No temporary PR/push runtime trigger or substitute workflow is used.
+The workflow is registered on the default branch. One actual [workflow_dispatch run](https://github.com/DimitryZH/container-platform/actions/runs/40046455406) completed successfully on `main`.
 
-After owner review and merge register the workflow on `main`:
+| Evidence | Observed result |
+|---|---|
+| Tested commit | `58241e3db4c8a2e15ec9a675be425e42d89759f9` |
+| Candidate | `releases/baseline-2026-10-18.json`, release ID `baseline-2026-10-18-001` |
+| Candidate byte SHA-256 | `4c4dcb50b8cbe6f8bd9955766d6149b12cb3f31c693705bb0f6aa1390227e9d9` |
+| Profile / mode | `aml-online-shop-compose-v1`, explicit inspection-only |
+| Services | All 12 running with the candidate's exact repository/digest references |
+| Readiness / semantics | Readiness and all five catalog/product/cart/add-remove/synthetic-checkout assertions passed |
+| Runtime | Exit 0, 47.627 seconds |
+| Runner cleanup | `success` |
+| Workflow cleanup | `verified_absent` for the exact project's containers, networks and volumes |
+| Offline validation | Exit 1 with 12 `legacy_ineligible` failures |
+| Evidence | Valid sanitized `compose-smoke-evidence/report.json`; published job summary verified during the original review |
 
-1. Dispatch the baseline with explicit inspection-only:
+On 2026-10-24, the run metadata and successful job steps were rechecked. The artifact was still available (expiry `2026-10-31T00:45:23Z`), downloaded again and verified against the tested commit's Git blob, exact image set, assertions, cleanup and retained legacy failures. Summary verification above refers to the original review, not a newly claimed summary download. After retention expiry, distinguish this recorded verification from whatever primary evidence remains accessible; do not claim a fresh artifact inspection without actually downloading it.
 
-   ```text
-   gh workflow run manual-smoke.yml --repo DimitryZH/container-platform --ref main -f candidate=releases/baseline-2026-10-18.json -f profile=aml-online-shop-compose-v1 -f inspection_only=true
-   ```
+This is evidence for one selected demo flow, not production readiness, performance, provenance, release approval or deployment authorization. Historical negative/local observations remain in [runtime smoke evidence](runtime-smoke.md). Live cancellation recovery remains unverified. [Main protection](main-protection.md) and milestone closure are separate owner decisions; runtime smoke is not a required PR check.
 
-2. Find and inspect the actual dispatch run:
+## Future manual dispatch and evidence review
 
-   ```text
-   gh run list --repo DimitryZH/container-platform --workflow manual-smoke.yml --event workflow_dispatch --limit 5
-   gh run view RUN_ID --repo DimitryZH/container-platform
-   gh run download RUN_ID --repo DimitryZH/container-platform --name compose-smoke-evidence
-   ```
+For a deliberate future run (not required merely to refresh this documentation):
 
-3. Confirm the intended tested SHA, candidate hash and exact images, all 12 service records, semantic assertions, runtime exit 0, successful runner cleanup, verified workflow resource absence and retained validation exit 1 with 12 legacy failures. Confirm artifact and summary availability. Record a concise hosted observation tied to the run URL; keep issue #15 open until this evidence is reviewed.
+```text
+gh workflow run manual-smoke.yml --repo DimitryZH/container-platform --ref main -f candidate=releases/baseline-2026-10-18.json -f profile=aml-online-shop-compose-v1 -f inspection_only=true
+gh run list --repo DimitryZH/container-platform --workflow manual-smoke.yml --event workflow_dispatch --limit 5
+gh run view RUN_ID --repo DimitryZH/container-platform
+gh run download RUN_ID --repo DimitryZH/container-platform --name compose-smoke-evidence
+```
 
-No hosted success, cancellation recovery or milestone completion is claimed before those checks occur.
+Confirm the intended tested SHA, candidate hash and exact images, all 12 service records, semantic assertions, runtime exit 0, successful runner cleanup, verified workflow resource absence and retained validation exit 1 with 12 legacy failures. Confirm artifact and summary availability, and record the specific run URL. Never infer release eligibility from runtime success.
